@@ -39,10 +39,10 @@ class CampoFutbol:
         self.jugadoresLocales = []
         self.jugadoresVisitantes = []
         # Jugadores
-        for i in range(15):
+        for i in range(10):
             self.agregar_jugador_local(Jugador('local'))
         self.agregar_jugador_local(Arquero('local'))
-        for i in range(15):
+        for i in range(10):
             self.agregar_jugador_visitante(Jugador('visitante'))
         self.agregar_jugador_visitante(Arquero('visitante'))
         self.dibujar_campo()
@@ -65,6 +65,9 @@ class CampoFutbol:
             jugador.moverse()
             jugador.dibujar_jugador()
             jugador.dibujar_hitbox() #Opcional
+
+        # Colisiones
+        self.chequear_colisiones()
             
 
     def agregar_jugador_local(self, jugador):
@@ -72,6 +75,16 @@ class CampoFutbol:
 
     def agregar_jugador_visitante(self, jugador):
         self.jugadoresVisitantes.append(jugador)
+
+    def chequear_colisiones(self):
+        colisiones = []
+        for jugador in self.jugadoresLocales + self.jugadoresVisitantes:
+            if jugador.rect.colliderect(self.pelota.rect):
+                colisiones.append(jugador)
+
+        for jugador in colisiones:
+            self.pelota.patear(jugador)
+
     
 
 
@@ -93,12 +106,16 @@ class LimitesCancha:
         self.width = screen.get_width()
         self.height = screen.get_height()
         self.line_color = white
+        self.rect = pygame.Rect(self.width * 0.1, self.height * 0.1, self.width * 0.8, self.height * 0.8 ) # Rectángulo para colisiones
 
     def dibujar_limites(self):
-        pygame.draw.rect(self.screen, self.line_color, (self.width * 0.1, self.height * 0.1, self.width * 0.8, self.height * 0.8), 3)
+        pygame.draw.rect(self.screen, self.line_color, self.rect, 3)
+        self.dibujar_hitbox() #opcional
+
         # Dibujar las Areas
         pygame.draw.rect(self.screen, self.line_color, (self.limite_izquierdo() -2, self.height * 0.25, 250, self.height * 0.5), 3)
         pygame.draw.rect(self.screen, self.line_color, (self.limite_derecho() - 248, self.height * 0.25, 250, self.height * 0.5), 3)
+
         # Dibujar el punto penal
         pygame.draw.circle(self.screen, self.line_color, (int(self.width * 0.25), int(self.height / 2)), 5)
         pygame.draw.circle(self.screen, self.line_color, (int(self.width * 0.75), int(self.height / 2)), 5)
@@ -108,13 +125,20 @@ class LimitesCancha:
         pygame.draw.line(self.screen, green, (self.width * 0.1, self.height * 0.40),(self.width * 0.1, self.height * 0.60), width=10)
         pygame.draw.line(self.screen, green, (self.width * 0.9, self.height * 0.40),(self.width * 0.9, self.height * 0.60), width=10)
 
-    #devolver el limite izquierdo de la cancha
     def limite_izquierdo(self):
         return self.width * 0.1 + 3
     
-    #devolver el limite derecho de la cancha
     def limite_derecho(self):
         return self.width * 0.9 - 3 
+    
+    def limite_superior(self):  
+        return self.height * 0.1 + 3
+    
+    def limite_inferior(self):
+        return self.height * 0.9 - 3
+    
+    def dibujar_hitbox(self): #Opcional
+        pygame.draw.rect(self.screen, (255, 0, 0), self.rect, 2)  # Dibujar la hitbox de la pelota
 
     def dibujar(self):
         self.dibujar_limites()
@@ -169,13 +193,18 @@ class Pelota:
         pygame.draw.circle(self.screen, self.color, (int(self.x), int(self.y)), self.radius)
 
     def patear(self, jugador):
-        if jugador.rect.colliderect(self.rect):
+        #if jugador.rect.colliderect(self.rect):  #innecesario ya que solamente se llama a patear desde el arreglo colisiones en el que hay jugadores collisionados
             # Si hay colisión, establecemos la dirección de la pelota
             self.direccion_x = jugador.direccion_x
             self.direccion_y = jugador.direccion_y
-            velocidad = 5
-            self.x += (self.direccion_x * velocidad) * self.velocidad
-            self.y += (self.direccion_y * velocidad) * self.velocidad
+            #Si el proximo movimiento se va fuera de la cancha cambia la direccion
+            if (self.x + (self.direccion_x * self.velocidad)) <= self.limites.limite_izquierdo() or (self.x + (self.direccion_x * self.velocidad)) >= self.limites.limite_derecho():
+                self.direccion_x *= -1
+            if (self.y + (self.direccion_y * self.velocidad)) <= self.limites.limite_superior() or (self.y + (self.direccion_y * self.velocidad)) >= self.limites.limite_inferior():
+                self.direccion_y *= -1
+
+            self.x += self.direccion_x  * self.velocidad
+            self.y += self.direccion_y * self.velocidad
 
             self.rect.x = self.x - self.radius
             self.rect.y = self.y - self.radius
@@ -219,16 +248,17 @@ class Jugador:
                 self.direccion_x = random.choice([-1, 1])
                 self.direccion_y = random.choice([-1, 1])
 
+            # Revisar límites y cambiar dirección si se sale de los límites
+            if (self.x + self.direccion_x * self.velocidad) <= self.limite_izquierdo or (self.x + self.direccion_x * self.velocidad) >= self.limite_derecho:
+                self.direccion_x *= -1
+            if (self.y + self.direccion_y * self.velocidad) <= self.limite_superior or (self.y + self.direccion_y * self.velocidad) >= self.limite_inferior:
+                self.direccion_y *= -1
+
             # Mover en la dirección actual
             self.x += self.direccion_x * self.velocidad
             self.y += self.direccion_y * self.velocidad
 
-            # Revisar límites y cambiar dirección si se sale de los límites
-            if self.x <= self.limite_izquierdo or self.x >= self.limite_derecho:
-                self.direccion_x *= -1
-            if self.y <= self.limite_superior or self.y >= self.limite_inferior:
-                self.direccion_y *= -1
-
+            
             self.rect = pygame.Rect(self.x-5, self.y-5, 10, 10)
 
     def dibujar_hitbox(self): #Opcional
@@ -294,23 +324,9 @@ def main():
                     visitor_score += 1
                     marcador.actualizar(local_score, visitor_score)
 
-        colisiones = []
-
-        for jugador in campo.jugadoresLocales + campo.jugadoresVisitantes:
-            if jugador.rect.colliderect(campo.pelota.rect):
-                jugador.color = (255, 255, 255)
-                colisiones.append(jugador)
-
-        for jugador in colisiones:
-            campo.pelota.patear(jugador)
-
         
         screen.fill(white)
         campo.dibujar_campo()
-
-
-
-
         marcador.mostrar_marcador()
 
         # Mostrar las coordenadas del mouse en la ventana
@@ -329,3 +345,10 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+#Que el jugador busque la pelota
+#Que el jugador agarre la pelota    
+#Chekear bordes de la cancha
+#Strategy
+#
