@@ -44,10 +44,10 @@ class CampoFutbol:
         self.visitor_score = 0
 
         # Jugadores
-        for i in range(1):
+        for i in range(2):
             self.agregar_jugador_local(Jugador('local'))
         self.agregar_jugador_local(Arquero('local'))
-        for i in range(0):
+        for i in range(2):
             self.agregar_jugador_visitante(Jugador('visitante'))
         self.agregar_jugador_visitante(Arquero('visitante'))
         self.dibujar_campo()
@@ -68,6 +68,7 @@ class CampoFutbol:
 
         for jugador in self.jugadoresLocales + self.jugadoresVisitantes:
             jugador.jugar(self.pelota)
+            #jugador.moverse()
             #jugador.buscar_pelota(self.pelota)
             jugador.dibujar_jugador()
             #jugador.dibujar_hitbox() #Opcional
@@ -94,7 +95,7 @@ class CampoFutbol:
 
     def chequear_colision_arco(self):
         if self.limites.rect.collidepoint(int(self.pelota.getX), int(self.pelota.getY())): #Si la pelota está dentro del arco
-            if self.pelota.getX < self.width / 2:
+            if self.pelota.x < self.width / 2:
                 self.marcador.actualizar(self.local_score + 1, self.visitor_score)  # Gol para el equipo visitante
             else:
                 self.marcador.actualizar(self.local_score, self.visitor_score + 1)  # Gol para el equipo local
@@ -219,7 +220,7 @@ class Pelota:
             # Si hay colisión, establecemos la dirección de la pelota
             self.contenedorPelota.asociar_pelota(jugador)
 
-            if jugador.verificar_si_tiene_pelota():
+            if jugador.verificar_si_tiene_pelota() and not (self.x > 1120 and 250 < self.y < 500) or (self.x < 330 and 250 < self.y < 500):
                 self.setX(jugador.x + jugador.direccion_x * (jugador.velocidad + 10))
                 self.setY(jugador.y + jugador.direccion_y * (jugador.velocidad))
             
