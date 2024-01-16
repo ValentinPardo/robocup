@@ -15,7 +15,6 @@ class Jugador:
 
     def patear(self):
         # Implementación del método patear
-        
         pass
 
     def rotar(self):
@@ -28,10 +27,10 @@ class Jugador:
 
     def comportamiento(self):
         # Implementación del método comportamiento
-        #Logica de lo que hace el jugador en cada situacion
-                #si su equipo tiene la pelopta               
-                #Si tiene la pelota 
-                #si no tiene la pelota
+        # Logica de lo que hace el jugador en cada situacion
+        # Si su equipo tiene la pelota
+        # Si tiene la pelota
+        # Si no tiene la pelota
         pass
 
     def sinPelota(self):
@@ -58,4 +57,40 @@ class Jugador:
     def notificar(self):
         # Implementación del método notificar
         self.jugador_view.actualizar(self.posicion)
+        pass
+
+class Arquero(Jugador):
+    def comportamiento(self):
+        # Implementación específica del comportamiento para Arquero
+        pass
+
+    def atajar(self):
+        # Implementación específica del método atajar para Arquero
+        pass
+
+class Defensor(Jugador):
+    def comportamiento(self):
+        # Implementación específica del comportamiento para Defensor
+        pass
+
+    def defender(self):
+        # Implementación específica del método defender para Defensor
+        pass
+
+class Mediocampista(Jugador):
+    def comportamiento(self):
+        # Implementación específica del comportamiento para Mediocampista
+        pass
+
+    def distribuirBalon(self):
+        # Implementación específica del método distribuirBalon para Mediocampista
+        pass
+
+class Delantero(Jugador):
+    def comportamiento(self):
+        # Implementación específica del comportamiento para Delantero
+        pass
+
+    def marcarGol(self):
+        # Implementación específica del método marcarGol para Delantero
         pass
