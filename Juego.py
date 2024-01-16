@@ -1,35 +1,40 @@
 from Views import *
-import Limites
-import Jugador
+from Limites import Limites
 import threading
+from Pelota import Pelota
+from Jugador import Jugador
+from Equipo import Equipo
 
 class Juego:
-    def __init__(self, equipo1, equipo2, limites):
-        self.equipo1 = equipo1
-        self.equipo2 = equipo2
-        self.limites = limites
+    def __init__(self):
+        pass
 
     def Jugar(self):
         # Lógica para jugar el juego
-        self.limites = Limites(0, 0, 0, 0)
-        Campo = CampoView(Limites)
-        Campo.crearCampo()
-        Pelota = Pelota()
-        PelotaView = PelotaView()
-        Pelota.suscribir(PelotaView)
+        limites = Limites(((200, 700), (1200, 700)), ((200, 200), (1200, 200)), ((200, 200), (200, 700)), ((1200, 200), (1200, 700)))
+        campo = CampoView(limites)
+        pelota = Pelota()
+        pelotaView = PelotaView()
+        pelota.suscribir(pelotaView)
+        coordenadas = (550, 550)
+        equipo1 = Equipo('4-3-3', 'estrategia')
+        equipo2 = Equipo('4-3-3', 'estrategia')
         for i in range(5):
-            Jugador = Jugador()
+            jugador = Jugador(coordenadas, 'delantero')
             jugadorView = JugadorView()
-            Jugador.suscribir(jugadorView)
-            self.equipo1.agregarJugador(Jugador)
-            thread = threading.Thread(target=Jugador.comportamiento(), args=())
+            jugador.suscribir(jugadorView)
+            equipo1.agregarJugador(jugador)
+            thread = threading.Thread(target=jugador.comportamiento, args=())  # Quitamos los paréntesis de comportamiento
             thread.start()
         for i in range(5):
-            Jugador = Jugador()
+            jugador = Jugador(coordenadas, 'delantero')
             jugadorView = JugadorView()
-            Jugador.suscribir(jugadorView)
-            self.equipo2.agregarJugador(Jugador)
-            thread = threading.Thread(target=Jugador.comportamiento(), args=())
+            jugador.suscribir(jugadorView)
+            equipo2.agregarJugador(jugador)
+            thread = threading.Thread(target=jugador.comportamiento, args=())  # Quitamos los paréntesis de comportamiento
             thread.start()
-        
-        pass
+
+        campo.actualizar()
+
+jugar = Juego()
+jugar.Jugar()
