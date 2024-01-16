@@ -1,9 +1,10 @@
 class Jugador:
-    def __init__(self, direccion, velocidad, posicion, pelota):
-        self.direccion = direccion
-        self.velocidad = velocidad
+    def __init__(self, coordenadas, posicion):
+        self.direccion = 0
+        self.velocidad = 2.5
         self.posicion = posicion
-        self.pelota = pelota
+        self.pelota = None
+        self.coordenadas = coordenadas
         self.jugador_view = None
 
     def correr(self):

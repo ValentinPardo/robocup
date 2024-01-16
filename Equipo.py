@@ -1,9 +1,13 @@
 class Equipo:
-    def __init__(self, formacion, jugadores, strategy):
+    def __init__(self, formacion, strategy):
         self.formacion = formacion
-        self.jugadores = jugadores
+        self.jugadores = []
         self.strategy = strategy
 
     def estrategia(self):
         # Implementa aquí la lógica de la estrategia del equipo
         pass
+
+    def agregarJugador(self, jugador):
+        # Implementa aquí la lógica para agregar un jugador al equipo
+        self.jugadores.append(jugador)
