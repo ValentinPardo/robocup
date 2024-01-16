@@ -9,6 +9,7 @@ class Jugador:
     def correr(self):
         # Implementación del método correr
         self.pelota.setPos(self.posicion)
+        self.notificar()
         pass
 
     def patear(self):
@@ -26,6 +27,10 @@ class Jugador:
 
     def comportamiento(self):
         # Implementación del método comportamiento
+        #Logica de lo que hace el jugador en cada situacion
+                #si su equipo tiene la pelopta               
+                #Si tiene la pelota 
+                #si no tiene la pelota
         pass
 
     def sinPelota(self):
