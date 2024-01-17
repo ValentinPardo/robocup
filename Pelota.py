@@ -1,7 +1,7 @@
 class Pelota:
     def __init__(self ):
         self.direccion = None
-        self.posicion = (550,550)
+        self.coordenadas = [725,400]
         self.velocidad = 0
         self.jugador = None
 
@@ -28,5 +28,5 @@ class Pelota:
 
     def notificar(self):
         # Implementación del método notificar
-        self.pelota_view.actualizar(self.posicion)
+        self.pelota_view.actualizar(self.coordenadas)
         pass

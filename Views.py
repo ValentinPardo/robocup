@@ -10,9 +10,10 @@ clock = pygame.time.Clock()
 font = pygame.font.Font(None, 36)
 
 class CampoView:
-    def __init__(self, dimensiones):
+    def __init__(self, dimensiones, juego):
         self.dimensiones = dimensiones
         self.marcador = Marcador()
+        self.juego = juego
 
     def actualizar(self):
         running = True
@@ -21,6 +22,7 @@ class CampoView:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
+                    self.juego.quit()
 
             screen.fill((0, 128, 0))
             self.dibujar_campo()
@@ -63,17 +65,20 @@ class PelotaView:
     def __init__(self):
         pass
 
-    def actualizar(self,posicion):
+    def actualizar(self,coordenadas):
         # Implementa la lógica para actualizar la posición de la pelota en la vista
-        pygame.draw.circle(screen, (0, 0, 0), posicion, 10)
+        pygame.draw.circle(screen, (0, 0, 0), coordenadas, 10)
 
 class JugadorView:
     def __init__(self):
         pass
 
-    def actualizar(self,posicion):
+    def actualizar(self,coordenadas,bando):
         # Implementa la lógica para actualizar la posición del jugador en la vista
-        pygame.draw.circle(screen, (255, 0, 0), posicion, 10)
+        if bando == 'local':
+            pygame.draw.circle(screen, (0, 0, 255), coordenadas, 10)
+        else:
+            pygame.draw.circle(screen, (255, 0, 0), coordenadas, 10)
 
 
 class Marcador:

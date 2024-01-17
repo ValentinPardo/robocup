@@ -11,3 +11,6 @@ class Equipo:
     def agregarJugador(self, jugador):
         # Implementa aquí la lógica para agregar un jugador al equipo
         self.jugadores.append(jugador)
+    
+    def jugadores(self):
+        return self.jugadores
