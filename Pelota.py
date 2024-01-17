@@ -1,4 +1,6 @@
 import math
+import pygame
+
 
 class Pelota:
     _instancia = None  # Almacenar la instancia única
@@ -18,6 +20,7 @@ class Pelota:
         self.coordenadas = [725, 400]
         self.velocidad = 0
         self.jugador = None
+        self.radio = 10
 
     def obtenida(self):
         # Implementación del método obtenida
@@ -32,8 +35,16 @@ class Pelota:
         pass
 
     def setPos(self, posJugador, angulo_radianes):
-        self.coordenadas[0] += posJugador[0] + math.cos(angulo_radianes) * 10
-        self.coordenadas[1] += posJugador[1] + math.sin(angulo_radianes) * 10
+        # Calcula la nueva posición de la pelota
+        nueva_pos_x = posJugador[0] + math.cos(angulo_radianes) * (self.radio + 10)
+        nueva_pos_y = posJugador[1] + math.sin(angulo_radianes) * (self.radio + 10)
+
+        # Actualiza las coordenadas de la pelota
+        self.coordenadas = [nueva_pos_x, nueva_pos_y]
+
+    def obtenerHitbox(self):
+        # Devuelve un rectángulo que representa la hitbox de la pelota
+        return pygame.Rect(self.coordenadas[0] - self.radio, self.coordenadas[1] - self.radio, 2 * self.radio, 2 * self.radio)
 
     def suscribir(self, pelota_view):
         # Implementación del método suscribir
