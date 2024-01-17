@@ -10,7 +10,7 @@ class Juego:
         pass
 
     def Jugar(self):
-        # Lógica para jugar el juego
+        # Lógica para jugar
         limites = Limites((150,1300),80,720, (80,720), 150, 1300)
         campo = CampoView(limites)
         pelota = Pelota()
@@ -24,14 +24,14 @@ class Juego:
             jugadorView = JugadorView()
             jugador.suscribir(jugadorView)
             equipo1.agregarJugador(jugador)
-            thread = threading.Thread(target=jugador.comportamiento, args=())  # Quitamos los paréntesis de comportamiento
+            thread = threading.Thread(target=jugador.comportamiento, args=())
             thread.start()
         for i in range(5):
             jugador = Jugador(coordenadas, 'delantero')
             jugadorView = JugadorView()
             jugador.suscribir(jugadorView)
             equipo2.agregarJugador(jugador)
-            thread = threading.Thread(target=jugador.comportamiento, args=())  # Quitamos los paréntesis de comportamiento
+            thread = threading.Thread(target=jugador.comportamiento, args=())
             thread.start()
 
         campo.actualizar()
