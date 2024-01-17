@@ -15,7 +15,7 @@ class CampoView:
         self.marcador = Marcador()
         self.juego = juego
 
-    def actualizar(self):
+    def actualizar(self, jugadorViews, pelotaView):
         running = True
 
         while running:
@@ -26,7 +26,10 @@ class CampoView:
 
             screen.fill((0, 128, 0))
             self.dibujar_campo()
-            
+            for jugadorView in jugadorViews:
+                jugadorView.actualizar()
+            pelotaView.actualizar()
+
             # Mostrar las coordenadas del mouse en la ventana
             mouse_x, mouse_y = pygame.mouse.get_pos()
             text = font.render(f"Mouse X: {mouse_x}, Mouse Y: {mouse_y}", True, (255,255,255))
@@ -63,22 +66,29 @@ class CampoView:
 
 class PelotaView:
     def __init__(self):
-        pass
+        self.coordenadas = [725, 400]
 
-    def actualizar(self,coordenadas):
+    def actualizar(self):
         # Implementa la lógica para actualizar la posición de la pelota en la vista
-        pygame.draw.circle(screen, (0, 0, 0), coordenadas, 10)
+        pygame.draw.circle(screen, (0, 0, 0), self.coordenadas, 10)
+
+    def actualizar_coordenadas(self, coordenadas):
+        self.coordenadas = coordenadas
 
 class JugadorView:
-    def __init__(self):
-        pass
+    def __init__(self, bando):
+        self.coordenadas = [0, 0]
+        self.bando = bando
 
-    def actualizar(self,coordenadas,bando):
+    def actualizar(self):
         # Implementa la lógica para actualizar la posición del jugador en la vista
-        if bando == 'local':
-            pygame.draw.circle(screen, (0, 0, 255), coordenadas, 10)
+        if self.bando == 'local':
+            pygame.draw.circle(screen, (0, 0, 255), self.coordenadas, 10)
         else:
-            pygame.draw.circle(screen, (255, 0, 0), coordenadas, 10)
+            pygame.draw.circle(screen, (255, 0, 0), self.coordenadas, 10)
+    
+    def actualizar_coordenadas(self, coordenadas):
+        self.coordenadas = coordenadas
 
 
 class Marcador:

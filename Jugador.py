@@ -36,7 +36,7 @@ class Jugador:
     def correr(self,angulo_radianes):
         # Implementación del método correr
         if self.tienePelota:
-            self.pelota.setPos(self.coordenadas)
+            self.pelota.setPos(self.coordenadas,angulo_radianes)
             self.notificar()
         #Calculo la nueva posicion del jugador
         self.coordenadas[0] += math.cos(angulo_radianes) * self.velocidad
@@ -88,7 +88,7 @@ class Jugador:
 
     def notificar(self):
         # Implementación del método notificar
-        self.jugador_view.actualizar(self.coordenadas,self.bando)
+        self.jugador_view.actualizar_coordenadas(self.coordenadas)
         pass
 
     def quit(self):

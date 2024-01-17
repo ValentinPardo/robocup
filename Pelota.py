@@ -1,7 +1,21 @@
+import math
+
 class Pelota:
-    def __init__(self ):
+    _instancia = None  # Almacenar la instancia única
+
+    def __new__(cls):
+        if not cls._instancia:
+            cls._instancia = super(Pelota, cls).__new__(cls)
+        return cls._instancia
+
+    def __init__(self):
+        if not hasattr(self, 'inicializado'):
+            self.inicializar()
+            self.inicializado = True
+    
+    def inicializar(self):
         self.direccion = None
-        self.coordenadas = [725,400]
+        self.coordenadas = [725, 400]
         self.velocidad = 0
         self.jugador = None
 
@@ -17,9 +31,9 @@ class Pelota:
         # Implementación del método getPos
         pass
 
-    def setPos(self, nueva_posicion):
-        # Implementación del método setPos
-        pass
+    def setPos(self, posJugador, angulo_radianes):
+        self.coordenadas[0] += posJugador[0] + math.cos(angulo_radianes) * 10
+        self.coordenadas[1] += posJugador[1] + math.sin(angulo_radianes) * 10
 
     def suscribir(self, pelota_view):
         # Implementación del método suscribir

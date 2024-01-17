@@ -21,21 +21,24 @@ class Juego:
         coordenadas = [210, 310, 410, 510, 610]
         self.equipo1 = Equipo('4-3-3', 'estrategia')
         self.equipo2 = Equipo('4-3-3', 'estrategia')
+        jugadorViews = []
         for i in range(5):
             jugador = Jugador(coordenadas[i], 'delantero', pelota, 'local')
-            jugadorView = JugadorView()
+            jugadorView = JugadorView('local')
             jugador.suscribir(jugadorView)
             self.equipo1.agregarJugador(jugador)
+            jugadorViews.append(jugadorView)
             thread = threading.Thread(target=jugador.comportamiento, args=())
             thread.start()
         for i in range(5):
             jugador = Jugador(coordenadas[i], 'delantero', pelota, 'visitante')
-            jugadorView = JugadorView()
+            jugadorView = JugadorView('visitante')
             jugador.suscribir(jugadorView)
             self.equipo2.agregarJugador(jugador)
+            jugadorViews.append(jugadorView)
             thread = threading.Thread(target=jugador.comportamiento, args=())
             thread.start()
-        campo.actualizar()
+        campo.actualizar(jugadorViews, pelotaView)
     
     def quit(self):
         for i in self.equipo1.jugadores:
