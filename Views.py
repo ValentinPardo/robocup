@@ -10,35 +10,28 @@ clock = pygame.time.Clock()
 font = pygame.font.Font(None, 36)
 
 class CampoView:
-    def __init__(self, dimensiones, juego):
+    def __init__(self, dimensiones):
         self.dimensiones = dimensiones
         self.marcador = Marcador()
-        self.juego = juego
 
-    def actualizar(self, jugadorViews, pelotaView):
-        running = True
+    def actualizar(self, jugadorViews, pelotaView,running):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running[0] = False
 
-        while running:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    running = False
-                    self.juego.quit()
+        screen.fill((0, 128, 0))
+        self.dibujar_campo()
+        for jugadorView in jugadorViews:
+            jugadorView.actualizar()
+        pelotaView.actualizar()
 
-            screen.fill((0, 128, 0))
-            self.dibujar_campo()
-            for jugadorView in jugadorViews:
-                jugadorView.actualizar()
-            pelotaView.actualizar()
-
-            # Mostrar las coordenadas del mouse en la ventana
-            mouse_x, mouse_y = pygame.mouse.get_pos()
-            text = font.render(f"Mouse X: {mouse_x}, Mouse Y: {mouse_y}", True, (255,255,255))
-            screen.blit(text, (1100, 10))  # Mostrar en la esquina superior derecha
-            #Actualizacion de pantalla
-            pygame.display.flip()
-            clock.tick(60)
-        
-        pygame.quit()
+        # Mostrar las coordenadas del mouse en la ventana
+        mouse_x, mouse_y = pygame.mouse.get_pos()
+        text = font.render(f"Mouse X: {mouse_x}, Mouse Y: {mouse_y}", True, (255,255,255))
+        screen.blit(text, (1100, 10))  # Mostrar en la esquina superior derecha
+        #Actualizacion de pantalla
+        pygame.display.flip()
+        clock.tick(60)
 
     #Separo el dibujar el campo en un metodo aparte para que sea mas legible
     def dibujar_campo(self):
@@ -64,16 +57,22 @@ class CampoView:
         #Dibujar Marcador
         self.marcador.mostrar_marcador()
 
+    def quit(self):
+        pygame.quit()
+
 class PelotaView:
     def __init__(self):
         self.coordenadas = [725, 400]
+        self.hitbox = pygame.Rect(self.coordenadas[0] - 10, self.coordenadas[1] - 10, 20, 20)
 
     def actualizar(self):
         # Implementa la lógica para actualizar la posición de la pelota en la vista
         pygame.draw.circle(screen, (0, 0, 0), self.coordenadas, 10)
+        pygame.draw.rect(screen, (255, 0,0), self.hitbox, 2)
 
-    def actualizar_coordenadas(self, coordenadas):
+    def actualizar_coordenadas(self, coordenadas, hitbox):
         self.coordenadas = coordenadas
+        self.hitbox = hitbox 
 
 class JugadorView:
     def __init__(self, bando):

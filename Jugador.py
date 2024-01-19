@@ -1,4 +1,5 @@
 import math
+import pygame
 
 class Jugador:
     def __init__(self, coordenadas, posicion,pelota ,bando):
@@ -15,6 +16,7 @@ class Jugador:
             self.coordenadas = [1050,coordenadas]
         self.jugador_view = None
         self.juegoActivo = True
+        self.hitbox = pygame.Rect(self.coordenadas[0] - 10, self.coordenadas[1] - 10, 20, 20)
 
     def comportamiento(self):
         # Logica de lo que hace el jugador en cada situacion
@@ -37,10 +39,10 @@ class Jugador:
         # Implementación del método correr
         if self.tienePelota:
             self.pelota.setPos(self.coordenadas,angulo_radianes)
-            self.notificar()
         #Calculo la nueva posicion del jugador
         self.coordenadas[0] += math.cos(angulo_radianes) * self.velocidad
         self.coordenadas[1] += math.sin(angulo_radianes) * self.velocidad
+        self.hitbox = pygame.Rect(self.coordenadas[0] - 10, self.coordenadas[1] - 10, 20, 20)
         
     def patear(self):
         # Implementación del método patear
@@ -52,9 +54,7 @@ class Jugador:
 
     def obtenerPelota(self):
         # Implementación del método obtenerPelota
-        pass
-
-    
+        self.tienePelota = True
 
     def sinPelota(self):
 
@@ -71,7 +71,7 @@ class Jugador:
 
     def conPelota(self):
         # Implementación del método conPelota
-        pass
+        self.correr(self.angulo)
 
     def equipoConPosesion(self):
         # Implementación del método equipoConPosesion
@@ -80,6 +80,13 @@ class Jugador:
     def getPos(self):
         # Implementación del método getPos
         pass
+
+    def obtenerHitbox(self):
+        # Implementación del método obtenerHitbox
+        return self.hitbox
+
+    def obtenerPelota(self):
+        self.tienePelota = True
 
     def suscribir(self, jugadorView):
         # Implementación del método suscribir

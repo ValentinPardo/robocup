@@ -21,10 +21,13 @@ class Pelota:
         self.velocidad = 0
         self.jugador = None
         self.radio = 10
+        self.hitbox = pygame.Rect(self.coordenadas[0] - self.radio, self.coordenadas[1] - self.radio, 2 * self.radio, 2 * self.radio)
 
-    def obtenida(self):
+    def obtenida(self, jugador):
         # Implementación del método obtenida
-        pass
+        if self.jugador == None:
+            self.jugador = jugador
+            self.jugador.obtenerPelota()
 
     def esPateada(self):
         # Implementación del método esPateada
@@ -41,10 +44,16 @@ class Pelota:
 
         # Actualiza las coordenadas de la pelota
         self.coordenadas = [nueva_pos_x, nueva_pos_y]
+        #Actualizar hitbox
+        self.hitbox = pygame.Rect(self.coordenadas[0] - self.radio, self.coordenadas[1] - self.radio, 2 * self.radio, 2 * self.radio)
+        try:
+            self.notificar()
+        except:
+            pass
 
     def obtenerHitbox(self):
         # Devuelve un rectángulo que representa la hitbox de la pelota
-        return pygame.Rect(self.coordenadas[0] - self.radio, self.coordenadas[1] - self.radio, 2 * self.radio, 2 * self.radio)
+        return self.hitbox
 
     def suscribir(self, pelota_view):
         # Implementación del método suscribir
@@ -53,5 +62,5 @@ class Pelota:
 
     def notificar(self):
         # Implementación del método notificar
-        self.pelota_view.actualizar(self.coordenadas)
+        self.pelota_view.actualizar_coordenadas(self.coordenadas,self.hitbox)
         pass
