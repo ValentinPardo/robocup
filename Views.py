@@ -68,16 +68,19 @@ class PelotaView:
     def actualizar(self):
         # Implementa la lógica para actualizar la posición de la pelota en la vista
         pygame.draw.circle(screen, (0, 0, 0), self.coordenadas, 10)
-        pygame.draw.rect(screen, (255, 0,0), self.hitbox, 2)
+        #pygame.draw.rect(screen, (255, 0,0), self.hitbox, 2)
 
     def actualizar_coordenadas(self, coordenadas, hitbox):
         self.coordenadas = coordenadas
         self.hitbox = hitbox 
 
 class JugadorView:
-    def __init__(self, bando):
+    def __init__(self, bando,numero):
         self.coordenadas = [0, 0]
         self.bando = bando
+        self.hitbox =None
+        self.numero = numero
+        self.font = pygame.font.Font(None,28)
 
     def actualizar(self):
         # Implementa la lógica para actualizar la posición del jugador en la vista
@@ -85,9 +88,15 @@ class JugadorView:
             pygame.draw.circle(screen, (0, 0, 255), self.coordenadas, 10)
         else:
             pygame.draw.circle(screen, (255, 0, 0), self.coordenadas, 10)
+        #pygame.draw.rect(screen, (255, 0,0), self.hitbox, 2)
+
+        # Render the player's number and draw it on the player's circle
+        numero_surface = self.font.render(str(self.numero), True, (255,255,255))  # black color
+        screen.blit(numero_surface, (self.coordenadas[0] - 5, self.coordenadas[1] - 10))  # Adjust the position as needed
     
-    def actualizar_coordenadas(self, coordenadas):
+    def actualizar_coordenadas(self, coordenadas,hitbox):
         self.coordenadas = coordenadas
+        self.hitbox = hitbox
 
 
 class Marcador:

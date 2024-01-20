@@ -23,11 +23,15 @@ class Pelota:
         self.radio = 10
         self.hitbox = pygame.Rect(self.coordenadas[0] - self.radio, self.coordenadas[1] - self.radio, 2 * self.radio, 2 * self.radio)
 
-    def obtenida(self, jugador):
-        # Implementación del método obtenida
-        if self.jugador == None:
-            self.jugador = jugador
-            self.jugador.obtenerPelota()
+    #def obtenida(self, jugador):
+    #    # Implementación del método obtenida
+    #    if self.jugador == None:
+    #        self.jugador = jugador
+    #        jugador.obtenerPelota()
+    #    else:
+    #        self.jugador.perderPelota()
+    #        self.jugador = jugador
+    #        jugador.obtenerPelota()
 
     def esPateada(self):
         # Implementación del método esPateada
@@ -39,8 +43,8 @@ class Pelota:
 
     def setPos(self, posJugador, angulo_radianes):
         # Calcula la nueva posición de la pelota
-        nueva_pos_x = posJugador[0] + math.cos(angulo_radianes) * (self.radio + 10)
-        nueva_pos_y = posJugador[1] + math.sin(angulo_radianes) * (self.radio + 10)
+        nueva_pos_x = posJugador[0] + math.cos(angulo_radianes) * (self.radio)
+        nueva_pos_y = posJugador[1] + math.sin(angulo_radianes) * (self.radio)
 
         # Actualiza las coordenadas de la pelota
         self.coordenadas = [nueva_pos_x, nueva_pos_y]
