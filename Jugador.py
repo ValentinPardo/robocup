@@ -62,7 +62,10 @@ class Jugador:
         distancia_x = self.pelota.coordenadas[0] - self.coordenadas[0]
         distancia_y = self.pelota.coordenadas[1] - self.coordenadas[1]
         angulo_radianes = math.atan2(distancia_y, distancia_x)
+        distancia = math.sqrt(distancia_x**2 + distancia_y**2)
 
+        if distancia < self.pelota.radio:
+            self.obtenerPelota()
         #Roto al jugador con la velocidad de rotacion y el angulo para que mire hacia la pelota
         #self.angulo += self.velocidadRotacion * angulo_radianes
 

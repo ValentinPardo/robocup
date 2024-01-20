@@ -23,7 +23,7 @@ class Juego:
         self.equipo1 = Equipo('4-3-3', 'estrategia')
         self.equipo2 = Equipo('4-3-3', 'estrategia')
         jugadorViews = []
-        for i in range(2):
+        for i in range(5):
             jugador = Jugador(coordenadas[i], 'delantero', pelota, 'local')
             jugadorView = JugadorView('local')
             jugador.suscribir(jugadorView)
@@ -31,7 +31,7 @@ class Juego:
             jugadorViews.append(jugadorView)
             thread = threading.Thread(target=jugador.comportamiento, args=())
             thread.start()
-        for i in range(2):
+        for i in range(1):
             jugador = Jugador(coordenadas[i], 'delantero', pelota, 'visitante')
             jugadorView = JugadorView('visitante')
             jugador.suscribir(jugadorView)
@@ -54,13 +54,22 @@ class Juego:
 
     #este chequeo se va a tener q hacer en views ya que se necesita de un bucle que chequee constantemente
     def chequear_colisiones(self, pelota):
-        # Implementación del método chequear_colisiones
-        for jugador in self.equipo1.jugadores:
+    # Check for collisions between the ball and the players
+        for jugador in self.equipo1.jugadores + self.equipo2.jugadores:
             if jugador.obtenerHitbox().colliderect(pelota.obtenerHitbox()):
                 pelota.obtenida(jugador)
-        for jugador in self.equipo2.jugadores:
-            if jugador.obtenerHitbox().colliderect(pelota.obtenerHitbox()):
-                pelota.obtenida(jugador)
+
+        for i in range(len(self.equipo1.jugadores)):
+            for j in range(i + 1, len(self.equipo1.jugadores)):
+                if self.equipo1.jugadores[i].obtenerHitbox().colliderect(self.equipo1.jugadores[j].obtenerHitbox()):
+                    # Colision entre jugadores
+                    pass
+
+        for i in range(len(self.equipo2.jugadores)):
+            for j in range(i + 1, len(self.equipo2.jugadores)):
+                if self.equipo2.jugadores[i].obtenerHitbox().colliderect(self.equipo2.jugadores[j].obtenerHitbox()):
+                    # Colision entre jugadores
+                    pass
 
 jugar = Juego()
 jugar.Jugar()
