@@ -12,13 +12,16 @@ class Jugador:
         self.tienePelota = False
         self.pelota = pelota
         self.bando = bando
-        if self.bando == 'local':
-            self.coordenadas = [400,coordenadas]
-        else:
-            self.coordenadas = [1050,coordenadas]
+        self.primeraPosicion(coordenadas)
         self.jugador_view = None
         self.juegoActivo = True
         self.hitbox = pygame.Rect(self.coordenadas[0] - 10, self.coordenadas[1] - 10, 20, 20)
+
+    def primeraPosicion(self, coordenadas):
+        if self.bando == 'local':
+            self.coordenadas = [400, coordenadas]
+        else:
+            self.coordenadas = [1050, coordenadas]
 
     def comportamiento(self):
         global equipoConPelota
@@ -55,11 +58,10 @@ class Jugador:
         anguloNuevo = angulo_radianes + variacion_radianes
         while equipoConPelota == '':
             pelota.esPateada(anguloNuevo)
-            if pelota.coordenadas[0] > 1300: #si la pelota sale de la cancha se asigna a un equipo para terminar el while
+            if pelota.coordenadas[0] > 1305: #si la pelota sale de la cancha se asigna a un equipo para terminar el while
                 equipoConPelota = 'local'
-        
-        
-
+            if pelota.coordenadas[0] < 132:
+                equipoConPelota = 'visitante'
 
     def rotar(self):
         # Implementación del método rotar
@@ -119,6 +121,10 @@ class Jugador:
         else:
             self.correr(angulo_radianes)
         
+    def setearGlobal(self,equipo):
+        global equipoConPelota
+        equipoConPelota = equipo
+
 
     def getPos(self):
         # Implementación del método getPos
