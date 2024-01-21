@@ -26,7 +26,7 @@ class Juego:
         self.equipo1 = Equipo('4-3-3', 'estrategia')
         self.equipo2 = Equipo('4-3-3', 'estrategia')
         jugadorViews = []
-        for i in range(2):
+        for i in range(3):
             jugador = Jugador(coordenadas[i], 'delantero', pelota, 'local')
             jugadorView = JugadorView('local', i + 1)
             jugador.suscribir(jugadorView)
@@ -34,7 +34,7 @@ class Juego:
             jugadorViews.append(jugadorView)
             thread = threading.Thread(target=jugador.comportamiento, args=())
             thread.start()
-        for i in range(3):
+        for i in range(0):
             jugador = Jugador(coordenadas[i], 'delantero', pelota, 'visitante')
             jugadorView = JugadorView('visitante',i + 1)
             jugador.suscribir(jugadorView)

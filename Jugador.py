@@ -7,7 +7,7 @@ class Jugador:
     def __init__(self, coordenadas, posicion,pelota ,bando):
         self.angulo = 0
         self.velocidad = 0.001
-        self.velocidadRotacion = 0.5
+        self.velocidadRotacion = 1
         self.posicion = posicion
         self.tienePelota = False
         self.pelota = pelota
@@ -52,7 +52,7 @@ class Jugador:
 
     def rotar(self):
         # Implementación del método rotar
-        pass
+        #self.angulo += self.velocidadRotacion
     
     def obtenerPelota(self):
         self.tienePelota = True
@@ -77,8 +77,7 @@ class Jugador:
         #self.angulo += self.velocidadRotacion * angulo_radianes
 
         self.correr(angulo_radianes)
-        
-
+      
     def conPelota(self):
         # Implementación del método conPelota
         if self.bando == 'local':
@@ -91,15 +90,22 @@ class Jugador:
         angulo_radianes = math.atan2(distancia_y, distancia_x)
 
         self.pelota.setPos(self.coordenadas,angulo_radianes)
+        
         self.correr(angulo_radianes)
 
     def equipoConPosesion(self):
         # Implementación del método equipoConPosesion
-        distancia_x = 725 - self.coordenadas[0]
-        distancia_y = 85 - self.coordenadas[1]
+        distancia_x = self.pelota.coordenadas[0] - self.coordenadas[0]
+        distancia_y = self.pelota.coordenadas[1] - self.coordenadas[1]
         angulo_radianes = math.atan2(distancia_y, distancia_x)
 
-        self.correr(angulo_radianes)    
+        #calcular hipotenusa
+        distancia = math.sqrt(distancia_x**2 + distancia_y**2)
+        if ( distancia ) < 100:
+            self.correr((-angulo_radianes))
+        else:
+            self.correr(angulo_radianes)
+        
 
     def getPos(self):
         # Implementación del método getPos
@@ -109,17 +115,13 @@ class Jugador:
         # Implementación del método obtenerHitbox
         return self.hitbox
 
-    
-
     def suscribir(self, jugadorView):
         # Implementación del método suscribir
         self.jugador_view = jugadorView
-        pass
 
     def notificar(self):
         # Implementación del método notificar
         self.jugador_view.actualizar_coordenadas(self.coordenadas, self.hitbox)
-        pass
 
     def quit(self):
         self.juegoActivo = False
