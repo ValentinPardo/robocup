@@ -14,4 +14,6 @@ class Contenedor:
             jugador.obtenerPelota()
 
     def desasociar(self):
+        self.jugador.perderPelota()
         self.jugador = None
+

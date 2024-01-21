@@ -1,5 +1,6 @@
 import math
 import pygame
+import random
 
 
 class Pelota:
@@ -16,10 +17,8 @@ class Pelota:
             self.inicializado = True
     
     def inicializar(self):
-        self.direccion = None
         self.coordenadas = [725, 400]
         self.velocidad = 0
-        self.jugador = None
         self.radio = 10
         self.hitbox = pygame.Rect(self.coordenadas[0] - self.radio, self.coordenadas[1] - self.radio, 2 * self.radio, 2 * self.radio)
 
@@ -33,9 +32,19 @@ class Pelota:
     #        self.jugador = jugador
     #        jugador.obtenerPelota()
 
-    def esPateada(self):
+    def esPateada(self,angulo_radianes):
         # Implementación del método esPateada
-        pass
+        self.velocidad = 0.002
+
+        # Generar un ángulo aleatorio entre radianes_min y radianes_max
+        #variacion_radianes = random.uniform(math.radians(-15),math.radians(15))
+
+        #nuevoAngulo = angulo_radianes + variacion_radianes
+
+        self.coordenadas[0] += math.cos(angulo_radianes ) * self.velocidad
+        self.coordenadas[1] += math.sin(angulo_radianes ) * self.velocidad
+        self.hitbox = pygame.Rect(self.coordenadas[0] - 10, self.coordenadas[1] - 10, 20, 20)
+        
 
     def getPos(self):
         # Implementación del método getPos

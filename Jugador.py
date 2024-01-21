@@ -1,13 +1,13 @@
 import math
 import pygame
+import random
 
 equipoConPelota = ''
 
 class Jugador:
     def __init__(self, coordenadas, posicion,pelota ,bando):
-        self.angulo = 0
         self.velocidad = 0.001
-        self.velocidadRotacion = 1
+        self.velocidadRotacion = 0
         self.posicion = posicion
         self.tienePelota = False
         self.pelota = pelota
@@ -46,13 +46,26 @@ class Jugador:
         self.coordenadas[1] += math.sin(angulo_radianes) * self.velocidad
         self.hitbox = pygame.Rect(self.coordenadas[0] - 10, self.coordenadas[1] - 10, 20, 20)
         
-    def patear(self):
+    def patear(self,angulo_radianes):
         # Implementación del método patear
-        pass
+        global equipoConPelota
+        pelota = self.pelota
+        self.perderPelota()
+        variacion_radianes = random.uniform(math.radians(-60),math.radians(60))
+        anguloNuevo = angulo_radianes + variacion_radianes
+        while equipoConPelota == '':
+            pelota.esPateada(anguloNuevo)
+            if pelota.coordenadas[0] > 1300: #si la pelota sale de la cancha se asigna a un equipo para terminar el while
+                equipoConPelota = 'local'
+        
+        
+
 
     def rotar(self):
         # Implementación del método rotar
-        #self.angulo += self.velocidadRotacion
+        angulo_radianes = math.atan2(self.pelota.coordenadas[1] - self.coordenadas[1], self.pelota.coordenadas[0] - self.coordenadas[0])
+        
+        self.pelota.setPos(self.coordenadas, angulo_radianes + 0.00001)
     
     def obtenerPelota(self):
         self.tienePelota = True
@@ -73,9 +86,6 @@ class Jugador:
         angulo_radianes = math.atan2(distancia_y, distancia_x)
         #distancia = math.sqrt(distancia_x**2 + distancia_y**2)
 
-        #Roto al jugador con la velocidad de rotacion y el angulo para que mire hacia la pelota
-        #self.angulo += self.velocidadRotacion * angulo_radianes
-
         self.correr(angulo_radianes)
       
     def conPelota(self):
@@ -89,9 +99,12 @@ class Jugador:
         distancia_y = area[1] - self.coordenadas[1]
         angulo_radianes = math.atan2(distancia_y, distancia_x)
 
-        self.pelota.setPos(self.coordenadas,angulo_radianes)
-        
-        self.correr(angulo_radianes)
+        #si la distancia al arco es menor a 150 patea
+        if (math.sqrt(distancia_x**2 + distancia_y**2)) < 150:
+            self.patear(angulo_radianes)
+        else: 
+            self.pelota.setPos(self.coordenadas,angulo_radianes)
+            self.correr(angulo_radianes)
 
     def equipoConPosesion(self):
         # Implementación del método equipoConPosesion
