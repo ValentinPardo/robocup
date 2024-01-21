@@ -12,13 +12,16 @@ class Jugador:
         self.tienePelota = False
         self.pelota = pelota
         self.bando = bando
-        if self.bando == 'local':
-            self.coordenadas = [400,coordenadas]
-        else:
-            self.coordenadas = [1050,coordenadas]
+        self.primeraPosicion(coordenadas)
         self.jugador_view = None
         self.juegoActivo = True
         self.hitbox = pygame.Rect(self.coordenadas[0] - 10, self.coordenadas[1] - 10, 20, 20)
+
+    def primeraPosicion(self, coordenadas):
+        if self.bando == 'local':
+            self.coordenadas = [400, coordenadas]
+        else:
+            self.coordenadas = [1050, coordenadas]
 
     def comportamiento(self):
         global equipoConPelota
@@ -53,6 +56,7 @@ class Jugador:
     def rotar(self):
         # Implementación del método rotar
         #self.angulo += self.velocidadRotacion
+        pass
     
     def obtenerPelota(self):
         self.tienePelota = True

@@ -12,9 +12,8 @@ font = pygame.font.Font(None, 36)
 class CampoView:
     def __init__(self, dimensiones):
         self.dimensiones = dimensiones
-        self.marcador = Marcador()
 
-    def actualizar(self, jugadorViews, pelotaView,running):
+    def actualizar(self, jugadorViews, pelotaView, running, marcador):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running[0] = False
@@ -24,7 +23,15 @@ class CampoView:
         for jugadorView in jugadorViews:
             jugadorView.actualizar()
         pelotaView.actualizar()
+        #Dibujo hitbox del arco (Estas 4 lineas se pueden/deben borrar)
+        self.hitbox_arco_local = pygame.Rect(self.dimensiones.fondoIzquierdo_x - 18, 800 * 0.40, 15, 800 * 0.20)
+        self.hitbox_arco_visitante = pygame.Rect(self.dimensiones.fondoDerecho_x + 5, 800 * 0.40, 15, 800 * 0.20)
+        pygame.draw.rect(screen, (255, 255, 255), self.hitbox_arco_local, 2)
+        pygame.draw.rect(screen, (255, 255, 255), self.hitbox_arco_visitante, 2)
 
+
+        #Mostrar marcador
+        marcador.mostrar_marcador()
         # Mostrar las coordenadas del mouse en la ventana
         mouse_x, mouse_y = pygame.mouse.get_pos()
         text = font.render(f"Mouse X: {mouse_x}, Mouse Y: {mouse_y}", True, (255,255,255))
@@ -54,8 +61,6 @@ class CampoView:
         #Dibujar Arcos
         pygame.draw.line(screen, (0,128,0), (width * 0.1, height * 0.40),(width * 0.1, height * 0.60), width=15)
         pygame.draw.line(screen, (0,128,0), (width * 0.9, height * 0.40),(width * 0.9, height * 0.60), width=15)
-        #Dibujar Marcador
-        self.marcador.mostrar_marcador()
 
     def quit(self):
         pygame.quit()
@@ -106,10 +111,11 @@ class Marcador:
         self.local_score = 0
         self.visitor_score = 0
 
-    def actualizar(self, local_score, visitor_score):
-        self.local_score = local_score
-        self.visitor_score = visitor_score
-        self.mostrar_marcador()
+    def gol_local(self):    
+        self.local_score += 1
+    
+    def gol_visitante(self):
+        self.visitor_score += 1
 
     def mostrar_marcador(self):
         marcador_texto = f"Local {self.local_score} - Visitante {self.visitor_score}"

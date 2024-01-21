@@ -19,6 +19,7 @@ class Juego:
         limites = Limites((150,1300),80,720, (80,720), 150, 1300)
         campo = CampoView(limites)
         pelota = Pelota()
+        marcador = Marcador()
         contenedor = Contenedor(pelota)
         pelotaView = PelotaView()
         pelota.suscribir(pelotaView)
@@ -43,8 +44,12 @@ class Juego:
             thread = threading.Thread(target=jugador.comportamiento, args=())
             thread.start()
         while running[0]:
-            campo.actualizar(jugadorViews, pelotaView,running)
+            campo.actualizar(jugadorViews, pelotaView, running, marcador)
             self.chequear_colisiones(pelota,contenedor)
+            if limites.verificar_gol(pelota.coordenadas, marcador):
+                #Reiniciar jugadores y pelota (incompleto)
+                self.reiniciar_posiciones(pelota, coordenadas)
+                contenedor.desasociar()
 
         campo.quit() #terminar visualizacion
         self.quit() #terminar modelo
@@ -54,6 +59,16 @@ class Juego:
             i.quit()
         for i in self.equipo2.jugadores:
             i.quit()
+
+    def reiniciar_posiciones(self, pelota, coordenadas):
+        # Lógica para reiniciar las posiciones de la pelota y los jugadores
+        i = 0
+        for jugador in self.equipo1.jugadores + self.equipo2.jugadores:
+            jugador.primeraPosicion(coordenadas[i % 5])
+            i+=1
+            pass #Logica de primera posicion para jugadores def, medio, del, arq
+
+        pelota.coordenadas = [725, 400]  # Reiniciar posición de la pelota
 
     #este chequeo se va a tener q hacer en views ya que se necesita de un bucle que chequee constantemente
     def chequear_colisiones(self, pelota, contenedor):
