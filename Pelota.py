@@ -36,11 +36,6 @@ class Pelota:
         # Implementación del método esPateada
         self.velocidad = 0.002
 
-        # Generar un ángulo aleatorio entre radianes_min y radianes_max
-        #variacion_radianes = random.uniform(math.radians(-15),math.radians(15))
-
-        #nuevoAngulo = angulo_radianes + variacion_radianes
-
         self.coordenadas[0] += math.cos(angulo_radianes ) * self.velocidad
         self.coordenadas[1] += math.sin(angulo_radianes ) * self.velocidad
         self.hitbox = pygame.Rect(self.coordenadas[0] - 10, self.coordenadas[1] - 10, 20, 20)
@@ -48,7 +43,7 @@ class Pelota:
 
     def getPos(self):
         # Implementación del método getPos
-        pass
+        return self.coordenadas
 
     def setPos(self, posJugador, angulo_radianes):
         # Calcula la nueva posición de la pelota

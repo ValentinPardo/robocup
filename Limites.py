@@ -8,8 +8,8 @@ class Limites:
         self.fondos_y = fondos_y
         self.fondoIzquierdo_x = fondoIzquierdo_x
         self.fondoDerecho_x = fondoDerecho_x
-        self.arco_local = pygame.Rect(self.fondoIzquierdo_x - 18, 320, 15, 160)
-        self.arco_visitante = pygame.Rect(self.fondoDerecho_x + 5, 320, 15, 160)
+        self.arco_local = pygame.Rect(self.fondoIzquierdo_x - 20, 320, 15, 160)
+        self.arco_visitante = pygame.Rect(self.fondoDerecho_x + 7, 320, 15, 160)
 
     def getLatSup(self):
         return self.lateralSuperior

@@ -24,8 +24,8 @@ class CampoView:
             jugadorView.actualizar()
         pelotaView.actualizar()
         #Dibujo hitbox del arco (Estas 4 lineas se pueden/deben borrar)
-        self.hitbox_arco_local = pygame.Rect(self.dimensiones.fondoIzquierdo_x - 18, 800 * 0.40, 15, 800 * 0.20)
-        self.hitbox_arco_visitante = pygame.Rect(self.dimensiones.fondoDerecho_x + 5, 800 * 0.40, 15, 800 * 0.20)
+        self.hitbox_arco_local = pygame.Rect(self.dimensiones.fondoIzquierdo_x - 20, 800 * 0.40, 15, 800 * 0.20)
+        self.hitbox_arco_visitante = pygame.Rect(self.dimensiones.fondoDerecho_x + 7, 800 * 0.40, 15, 800 * 0.20)
         pygame.draw.rect(screen, (255, 255, 255), self.hitbox_arco_local, 2)
         pygame.draw.rect(screen, (255, 255, 255), self.hitbox_arco_visitante, 2)
 

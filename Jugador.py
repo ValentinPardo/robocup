@@ -5,10 +5,9 @@ import random
 equipoConPelota = ''
 
 class Jugador:
-    def __init__(self, coordenadas, posicion,pelota ,bando):
+    def __init__(self, coordenadas,pelota ,bando):
         self.velocidad = 0.001
         self.velocidadRotacion = 0
-        self.posicion = posicion
         self.tienePelota = False
         self.pelota = pelota
         self.bando = bando
@@ -54,7 +53,7 @@ class Jugador:
         global equipoConPelota
         pelota = self.pelota
         self.perderPelota()
-        variacion_radianes = random.uniform(math.radians(-60),math.radians(60))
+        variacion_radianes = random.uniform(math.radians(-30),math.radians(30))
         anguloNuevo = angulo_radianes + variacion_radianes
         while equipoConPelota == '':
             pelota.esPateada(anguloNuevo)
@@ -147,36 +146,60 @@ class Jugador:
         
 
 class Arquero(Jugador):
-    def comportamiento(self):
-        # Implementación específica del comportamiento para Arquero
-        pass
+    def primeraPosicion(self, coordenadas):
+        if self.bando == 'local':
+            self.coordenadas = [150, coordenadas]
+        else:
+            self.coordenadas = [1297, coordenadas]
+
+    #def comportamiento(self):
+    #    # Implementación específica del comportamiento para Arquero
+    #    pass
 
     def atajar(self):
         # Implementación específica del método atajar para Arquero
         pass
 
 class Defensor(Jugador):
-    def comportamiento(self):
-        # Implementación específica del comportamiento para Defensor
-        pass
+    def primeraPosicion(self, coordenadas):
+        if self.bando == 'local':
+            self.coordenadas = [300, coordenadas]
+        else:
+            self.coordenadas = [1150, coordenadas]
+
+    #def comportamiento(self):
+    #    # Implementación específica del comportamiento para Defensor
+    #    pass
 
     def defender(self):
         # Implementación específica del método defender para Defensor
         pass
 
 class Mediocampista(Jugador):
-    def comportamiento(self):
-        # Implementación específica del comportamiento para Mediocampista
-        pass
+    def primeraPosicion(self, coordenadas):
+        if self.bando == 'local':
+            self.coordenadas = [500, coordenadas]
+        else:
+            self.coordenadas = [930, coordenadas]
+
+    #def comportamiento(self):
+    #    # Implementación específica del comportamiento para Mediocampista
+    #    pass
 
     def distribuirBalon(self):
         # Implementación específica del método distribuirBalon para Mediocampista
         pass
 
 class Delantero(Jugador):
-    def comportamiento(self):
-        # Implementación específica del comportamiento para Delantero
-        pass
+    def primeraPosicion(self, coordenadas):
+        if self.bando == 'local':
+            self.coordenadas = [651, coordenadas]
+        else:
+            self.coordenadas = [797, coordenadas]
+
+    #def comportamiento(self):
+    #    # Implementación específica del comportamiento para Delantero
+    #    pass
 
     def marcarGol(self):
         # Implementación específica del método marcarGol para Delantero

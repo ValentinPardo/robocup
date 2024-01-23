@@ -2,7 +2,7 @@ from Views import *
 from Limites import Limites
 import threading
 from Pelota import Pelota
-from Jugador import Jugador
+from Jugador import *
 from Equipo import Equipo
 from ContenedorPelota import Contenedor
 import random
@@ -27,7 +27,7 @@ class Juego:
         self.equipo2 = Equipo('4-3-3', 'estrategia')
         jugadorViews = []
         for i in range(0):
-            jugador = Jugador(coordenadas[i], 'delantero', pelota, 'local')
+            jugador = Delantero(coordenadas[i], pelota, 'local')
             jugadorView = JugadorView('local', i + 1)
             jugador.suscribir(jugadorView)
             self.equipo1.agregarJugador(jugador)
@@ -35,7 +35,7 @@ class Juego:
             thread = threading.Thread(target=jugador.comportamiento, args=())
             thread.start()
         for i in range(1):
-            jugador = Jugador(coordenadas[i], 'delantero', pelota, 'visitante')
+            jugador = Defensor(coordenadas[i], pelota, 'visitante')
             jugadorView = JugadorView('visitante',i + 1)
             jugador.suscribir(jugadorView)
             self.equipo2.agregarJugador(jugador)
