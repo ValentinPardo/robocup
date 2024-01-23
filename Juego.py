@@ -26,8 +26,8 @@ class Juego:
         self.equipo1 = Equipo('4-3-3', 'estrategia')
         self.equipo2 = Equipo('4-3-3', 'estrategia')
         jugadorViews = []
-        for i in range(0):
-            jugador = Delantero(coordenadas[i], pelota, 'local')
+        for i in range(1):
+            jugador = Arquero(coordenadas[i], pelota, 'local')
             jugadorView = JugadorView('local', i + 1)
             jugador.suscribir(jugadorView)
             self.equipo1.agregarJugador(jugador)
@@ -44,10 +44,9 @@ class Juego:
             thread.start()
         while running[0]:
             campo.actualizar(jugadorViews, pelotaView, running, marcador)
-            self.chequear_colisiones(pelota,contenedor)
+            self.chequear_colisiones(pelota,contenedor, coordenadas)
             if limites.verificar_gol(pelota.coordenadas, marcador):
                 #Reiniciar jugadores y pelota (incompleto)
-
                 self.reiniciar_posiciones(pelota, coordenadas)
                 contenedor.desasociar()
 
@@ -68,18 +67,18 @@ class Juego:
             i+=1
             pass #Logica de primera posicion para jugadores def, medio, del, arq
 
+        pelota.velocidad = 0
         pelota.setPos([715, 400],0)  # Reiniciar posición de la pelota
 
     #este chequeo se va a tener q hacer en views ya que se necesita de un bucle que chequee constantemente
-    def chequear_colisiones(self, pelota, contenedor):
+    def chequear_colisiones(self, pelota, contenedor, coordenadas):
         # Check for collisions between the ball and the players
         jugadores = self.equipo2.jugadores + self.equipo1.jugadores
         random.shuffle(jugadores)  # Randomly shuffle the players array
 
         for jugador in jugadores:
             if jugador.obtenerHitbox().colliderect(pelota.obtenerHitbox()):
-                contenedor.asociar(jugador)
-
+                    contenedor.asociar(jugador) 
 
 jugar = Juego()
 jugar.Jugar()

@@ -62,6 +62,10 @@ class CampoView:
         pygame.draw.line(screen, (0,128,0), (width * 0.1, height * 0.40),(width * 0.1, height * 0.60), width=15)
         pygame.draw.line(screen, (0,128,0), (width * 0.9, height * 0.40),(width * 0.9, height * 0.60), width=15)
 
+        #borrar
+        #ygame.draw.rect(screen, (255, 255, 255), self.hitbox_arco_local, 2)
+        #pygame.draw.rect(screen, (255, 255, 255), self.hitbox_arco_visitante, 2)
+
     def quit(self):
         pygame.quit()
 
@@ -73,7 +77,7 @@ class PelotaView:
     def actualizar(self):
         # Implementa la lógica para actualizar la posición de la pelota en la vista
         pygame.draw.circle(screen, (0, 0, 0), self.coordenadas, 10)
-        #pygame.draw.rect(screen, (255, 0,0), self.hitbox, 2)
+        pygame.draw.rect(screen, (255, 0,0), self.hitbox, 2)
 
     def actualizar_coordenadas(self, coordenadas, hitbox):
         self.coordenadas = coordenadas
@@ -93,7 +97,7 @@ class JugadorView:
             pygame.draw.circle(screen, (0, 0, 255), self.coordenadas, 10)
         else:
             pygame.draw.circle(screen, (255, 0, 0), self.coordenadas, 10)
-        #pygame.draw.rect(screen, (255, 0,0), self.hitbox, 2)
+        pygame.draw.rect(screen, (255, 0,0), self.hitbox, 2)
 
         # Render the player's number and draw it on the player's circle
         numero_surface = self.font.render(str(self.numero), True, (255,255,255))  # black color

@@ -148,13 +148,43 @@ class Jugador:
 class Arquero(Jugador):
     def primeraPosicion(self, coordenadas):
         if self.bando == 'local':
-            self.coordenadas = [150, coordenadas]
+            self.coordenadas = [150, 390]
         else:
-            self.coordenadas = [1297, coordenadas]
+            self.coordenadas = [1297, 390]
 
-    #def comportamiento(self):
-    #    # Implementación específica del comportamiento para Arquero
-    #    pass
+    def comportamiento(self):
+        direccion = 'DOWN'
+        while self.juegoActivo:
+            if not self.tienePelota:
+                self.moverArco(direccion)
+                if self.coordenadas[1] == 480:
+                    direccion = self.invertirDireccion(direccion)
+                if self.coordenadas[1] == 320:
+                    direccion = self.invertirDireccion(direccion)
+            try:
+                self.notificar()
+            except:
+                pass
+
+    def moverArco(self, direccion):
+        # Implementación del movimiento automático del arquero de arriba a abajo dentro del arco
+        limite_superior = 320
+        limite_inferior = 480
+
+        if direccion == 'DOWN':
+            if self.coordenadas[1] + self.velocidad <= limite_inferior:
+                self.correr(math.radians(90))
+            else:
+                self.coordenadas[1] = limite_inferior  # Ajusta a la posición límite inferior
+        elif direccion == 'UP':
+            if self.coordenadas[1] - self.velocidad >= limite_superior:
+                self.correr(math.radians(270))
+            else:
+                self.coordenadas[1] = limite_superior  # Ajusta a la posición límite superior
+
+    def invertirDireccion(self, direccion):
+        # Cambia la dirección (de 'UP' a 'DOWN' o viceversa)
+        return 'DOWN' if direccion == 'UP' else 'UP'
 
     def atajar(self):
         # Implementación específica del método atajar para Arquero

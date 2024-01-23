@@ -63,6 +63,12 @@ class Pelota:
         # Devuelve un rectángulo que representa la hitbox de la pelota
         return self.hitbox
 
+    def fueraDeLaCancha(self):
+        if (0 <= self.coordenadas[0] <= 147 and 80 <= self.coordenadas[1] <= 718) or \
+        (1305 <= self.coordenadas[0] <= 1449 and 80 <= self.coordenadas[1] <= 718):
+            return True
+        return False
+
     def suscribir(self, pelota_view):
         # Implementación del método suscribir
         self.pelota_view = pelota_view
