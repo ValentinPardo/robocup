@@ -65,6 +65,7 @@ class Juego:
         i = 0
         for jugador in self.equipo1.jugadores + self.equipo2.jugadores:
             jugador.primeraPosicion(coordenadas[i % 5])
+            jugador.notificar()
             jugador.perderPelota()
             i += 1
 

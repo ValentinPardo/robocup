@@ -4,7 +4,7 @@ import random
 
 
 class Pelota:
-    _instancia = None  # Almacenar la instancia única
+    _instancia = None  # Almacenar la instancia única (Singleton)
 
     def __new__(cls):
         if not cls._instancia:
