@@ -4,7 +4,7 @@ import random
 
 
 class Pelota:
-    _instancia = None  # Almacenar la instancia única
+    _instancia = None  # Almacenar la instancia única (Singleton)
 
     def __new__(cls):
         if not cls._instancia:
@@ -21,16 +21,6 @@ class Pelota:
         self.velocidad = 0
         self.radio = 10
         self.hitbox = pygame.Rect(self.coordenadas[0] - self.radio, self.coordenadas[1] - self.radio, 2 * self.radio, 2 * self.radio)
-
-    #def obtenida(self, jugador):
-    #    # Implementación del método obtenida
-    #    if self.jugador == None:
-    #        self.jugador = jugador
-    #        jugador.obtenerPelota()
-    #    else:
-    #        self.jugador.perderPelota()
-    #        self.jugador = jugador
-    #        jugador.obtenerPelota()
 
     def esPateada(self,angulo_radianes):
         # Implementación del método esPateada

@@ -26,16 +26,16 @@ class Juego:
         self.equipo1 = Equipo('4-3-3', 'estrategia')
         self.equipo2 = Equipo('4-3-3', 'estrategia')
         jugadorViews = []
-        for i in range(1):
-            jugador = Arquero(coordenadas[i], pelota, 'local')
+        for i in range(3):
+            jugador = Delantero(coordenadas[i], pelota, 'local')
             jugadorView = JugadorView('local', i + 1)
             jugador.suscribir(jugadorView)
             self.equipo1.agregarJugador(jugador)
             jugadorViews.append(jugadorView)
             thread = threading.Thread(target=jugador.comportamiento, args=())
             thread.start()
-        for i in range(1):
-            jugador = Defensor(coordenadas[i], pelota, 'visitante')
+        for i in range(3):
+            jugador = Mediocampista(coordenadas[i], pelota, 'visitante')
             jugadorView = JugadorView('visitante',i + 1)
             jugador.suscribir(jugadorView)
             self.equipo2.agregarJugador(jugador)
@@ -46,9 +46,9 @@ class Juego:
             campo.actualizar(jugadorViews, pelotaView, running, marcador)
             self.chequear_colisiones(pelota,contenedor, coordenadas)
             if limites.verificar_gol(pelota.coordenadas, marcador):
-                #Reiniciar jugadores y pelota (incompleto)
-                self.reiniciar_posiciones(pelota, coordenadas)
+                #Reiniciar jugadores y pelota FALTA FIXEAR PELOTA
                 contenedor.desasociar()
+                self.reiniciar_posiciones(pelota, coordenadas)
 
         campo.quit() #terminar visualizacion
         self.quit() #terminar modelo
@@ -64,6 +64,7 @@ class Juego:
         i = 0
         for jugador in self.equipo1.jugadores + self.equipo2.jugadores:
             jugador.primeraPosicion(coordenadas[i % 5])
+            jugador.notificar()
             i+=1
             pass #Logica de primera posicion para jugadores def, medio, del, arq
 
