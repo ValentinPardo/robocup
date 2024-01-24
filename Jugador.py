@@ -27,10 +27,10 @@ class Jugador:
         # Logica de lo que hace el jugador en cada situacion
         while self.juegoActivo:
             # Si no tiene la pelota
-            if not self.tienePelota and equipoConPelota != self.bando: #and equipoNoTienePelota
+            if not self.tienePelota and equipoConPelota != self.bando:
                 self.sinPelota()
             # Si su equipo tiene la pelota
-            elif not self.tienePelota and equipoConPelota == self.bando: #and equipoTienePelota
+            elif not self.tienePelota and equipoConPelota == self.bando:
                 self.equipoConPosesion()
             # Si tiene la pelota
             elif self.tienePelota:

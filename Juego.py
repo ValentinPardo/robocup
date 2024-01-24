@@ -47,8 +47,8 @@ class Juego:
             self.chequear_colisiones(pelota,contenedor, coordenadas)
             if limites.verificar_gol(pelota.coordenadas, marcador):
                 #Reiniciar jugadores y pelota (incompleto)
-                self.reiniciar_posiciones(pelota, coordenadas)
                 contenedor.desasociar()
+                self.reiniciar_posiciones(pelota, coordenadas)
 
         campo.quit() #terminar visualizacion
         self.quit() #terminar modelo
