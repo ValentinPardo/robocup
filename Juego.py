@@ -26,16 +26,16 @@ class Juego:
         self.equipo1 = Equipo('4-3-3', 'estrategia')
         self.equipo2 = Equipo('4-3-3', 'estrategia')
         jugadorViews = []
-        for i in range(1):
-            jugador = Arquero(coordenadas[i], pelota, 'local')
+        for i in range(0):
+            jugador = Arquero(coordenadas[i], pelota, 'local', self.equipo1)
             jugadorView = JugadorView('local', i + 1)
             jugador.suscribir(jugadorView)
             self.equipo1.agregarJugador(jugador)
             jugadorViews.append(jugadorView)
             thread = threading.Thread(target=jugador.comportamiento, args=())
             thread.start()
-        for i in range(1):
-            jugador = Defensor(coordenadas[i], pelota, 'visitante')
+        for i in range(3):
+            jugador = Defensor(coordenadas[i], pelota, 'visitante', self.equipo2)
             jugadorView = JugadorView('visitante',i + 1)
             jugador.suscribir(jugadorView)
             self.equipo2.agregarJugador(jugador)
@@ -49,6 +49,7 @@ class Juego:
                 #Reiniciar jugadores y pelota (incompleto)
                 contenedor.desasociar()
                 self.reiniciar_posiciones(pelota, coordenadas)
+            #print(pelota.coordenadas)
 
         campo.quit() #terminar visualizacion
         self.quit() #terminar modelo
@@ -64,11 +65,13 @@ class Juego:
         i = 0
         for jugador in self.equipo1.jugadores + self.equipo2.jugadores:
             jugador.primeraPosicion(coordenadas[i % 5])
-            i+=1
-            pass #Logica de primera posicion para jugadores def, medio, del, arq
+            jugador.perderPelota()
+            i += 1
 
+        # Reiniciar posición de la pelota
         pelota.velocidad = 0
-        pelota.setPos([715, 400],0)  # Reiniciar posición de la pelota
+        pelota.setPos([715, 400], 0)
+
 
     #este chequeo se va a tener q hacer en views ya que se necesita de un bucle que chequee constantemente
     def chequear_colisiones(self, pelota, contenedor, coordenadas):

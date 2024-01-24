@@ -14,3 +14,6 @@ class Equipo:
     
     def jugadores(self):
         return self.jugadores
+    
+    def cantidadJugadores(self):
+        return len(self.jugadores)

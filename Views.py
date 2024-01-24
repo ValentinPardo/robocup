@@ -81,7 +81,10 @@ class PelotaView:
 
     def actualizar_coordenadas(self, coordenadas, hitbox):
         self.coordenadas = coordenadas
-        self.hitbox = hitbox 
+        self.hitbox = hitbox
+        if coordenadas == [725, 400]:
+            pygame.draw.circle(screen, (0, 0, 0), self.coordenadas, 10)
+            pygame.draw.rect(screen, (255, 0,0), self.hitbox, 2)
 
 class JugadorView:
     def __init__(self, bando,numero):

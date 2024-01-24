@@ -5,12 +5,13 @@ import random
 equipoConPelota = ''
 
 class Jugador:
-    def __init__(self, coordenadas,pelota ,bando):
+    def __init__(self, coordenadas, pelota, bando, equipo):
         self.velocidad = 0.001
         self.velocidadRotacion = 0
         self.tienePelota = False
         self.pelota = pelota
         self.bando = bando
+        self.equipo = equipo
         self.primeraPosicion(coordenadas)
         self.jugador_view = None
         self.juegoActivo = True
@@ -61,6 +62,18 @@ class Jugador:
                 equipoConPelota = 'local'
             if pelota.coordenadas[0] < 132:
                 equipoConPelota = 'visitante'
+            
+    def pasar(self):
+        size = self.equipo.cantidadJugadores()-1
+        jugadorDestino = self.equipo.jugadores[random.randint(0,size)]
+        if self.bando == 'local':
+            if jugadorDestino.coordenadas[0] > self.coordenadas[0]:
+                self.perderPelota()
+                jugadorDestino.obtenerPelota()
+        elif self.bando == 'visitante':
+            if jugadorDestino.coordenadas[0] < self.coordenadas[0]:
+                self.perderPelota()
+                jugadorDestino.obtenerPelota()
 
     def rotar(self):
         # Implementación del método rotar
@@ -106,6 +119,7 @@ class Jugador:
         else: 
             self.pelota.setPos(self.coordenadas,angulo_radianes)
             self.correr(angulo_radianes)
+            self.pasar()
 
     def equipoConPosesion(self):
         # Implementación del método equipoConPosesion
@@ -161,6 +175,8 @@ class Arquero(Jugador):
                     direccion = self.invertirDireccion(direccion)
                 if self.coordenadas[1] == 320:
                     direccion = self.invertirDireccion(direccion)
+            elif self.tienePelota:
+                self.pelota.esPateada(math.radians(0))
             try:
                 self.notificar()
             except:

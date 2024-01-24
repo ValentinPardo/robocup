@@ -64,6 +64,11 @@ class Pelota:
         self.pelota_view = pelota_view
         pass
 
+    def desuscribir(self):
+        # Implementación del método desuscribir
+        self.pelota_view = None
+        pass
+
     def notificar(self):
         # Implementación del método notificar
         self.pelota_view.actualizar_coordenadas(self.coordenadas,self.hitbox)
