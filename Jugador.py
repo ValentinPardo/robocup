@@ -64,16 +64,18 @@ class Jugador:
                 equipoConPelota = 'visitante'
             
     def pasar(self):
-        size = self.equipo.cantidadJugadores()-1
-        jugadorDestino = self.equipo.jugadores[random.randint(0,size)]
-        if self.bando == 'local':
-            if jugadorDestino.coordenadas[0] > self.coordenadas[0]:
-                self.perderPelota()
-                jugadorDestino.obtenerPelota()
-        elif self.bando == 'visitante':
-            if jugadorDestino.coordenadas[0] < self.coordenadas[0]:
-                self.perderPelota()
-                jugadorDestino.obtenerPelota()
+        i = random.randint(0,100000)
+        if i == 978: #probabilidad de pasar la pelota
+            size = self.equipo.cantidadJugadores()-1
+            jugadorDestino = self.equipo.jugadores[random.randint(0,size)]
+            if self.bando == 'local':
+                if jugadorDestino.coordenadas[0] > self.coordenadas[0]:
+                    self.perderPelota()
+                    jugadorDestino.obtenerPelota()
+            elif self.bando == 'visitante':
+                if jugadorDestino.coordenadas[0] > self.coordenadas[0]:
+                    self.perderPelota()
+                    jugadorDestino.obtenerPelota()
 
     def rotar(self):
         # Implementación del método rotar
