@@ -26,16 +26,32 @@ class Juego:
         self.equipo1 = Equipo('4-3-3', 'estrategia')
         self.equipo2 = Equipo('4-3-3', 'estrategia')
         jugadorViews = []
-        for i in range(0):
-            jugador = Arquero(coordenadas[i], pelota, 'local', self.equipo1)
+        #EQUIPO LOCAL
+        for i in range(2):
+            if i == 0:
+                jugador = Arquero(coordenadas[i], pelota, 'local', self.equipo1)
+            elif i == 1 or i == 2:
+                jugador = Defensor(coordenadas[i], pelota, 'local', self.equipo1)
+            elif i == 3:
+                jugador = Mediocampista(coordenadas[i], pelota, 'local', self.equipo1)
+            elif i == 4:
+                jugador = Delantero(coordenadas[i], pelota, 'local', self.equipo1)
             jugadorView = JugadorView('local', i + 1)
             jugador.suscribir(jugadorView)
             self.equipo1.agregarJugador(jugador)
             jugadorViews.append(jugadorView)
             thread = threading.Thread(target=jugador.comportamiento, args=())
             thread.start()
-        for i in range(3):
-            jugador = Defensor(coordenadas[i], pelota, 'visitante', self.equipo2)
+        #EQUIPO VISITANTE
+        for i in range(2):
+            if i == 0:
+                jugador = Arquero(coordenadas[i], pelota, 'visitante', self.equipo2)
+            elif i == 1 or i == 2:
+                jugador = Defensor(coordenadas[i], pelota, 'visitante', self.equipo2)
+            elif i == 3:
+                jugador = Mediocampista(coordenadas[i], pelota, 'visitante', self.equipo2)
+            elif i == 4:
+                jugador = Delantero(coordenadas[i], pelota, 'visitante', self.equipo2)
             jugadorView = JugadorView('visitante',i + 1)
             jugador.suscribir(jugadorView)
             self.equipo2.agregarJugador(jugador)
@@ -49,7 +65,7 @@ class Juego:
                 #Reiniciar jugadores y pelota (incompleto)
                 contenedor.desasociar()
                 self.reiniciar_posiciones(pelota, coordenadas)
-            #print(pelota.coordenadas)
+            #print(int(pygame.time.get_ticks()/1000)) Metodo para obtener tiempo desde inicio
 
         campo.quit() #terminar visualizacion
         self.quit() #terminar modelo
@@ -82,7 +98,10 @@ class Juego:
 
         for jugador in jugadores:
             if jugador.obtenerHitbox().colliderect(pelota.obtenerHitbox()):
-                    contenedor.asociar(jugador) 
+                    if pelota.tiempoUltimoRobo == 0:
+                        contenedor.asociar(jugador) 
+                    else:
+                        pelota.tiempoUltimoRobo -= 1
 
 jugar = Juego()
 jugar.Jugar()

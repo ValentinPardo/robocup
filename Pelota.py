@@ -20,6 +20,7 @@ class Pelota:
         self.coordenadas = [725, 400]
         self.velocidad = 0
         self.radio = 10
+        self.tiempoUltimoRobo = 0
         self.hitbox = pygame.Rect(self.coordenadas[0] - self.radio, self.coordenadas[1] - self.radio, 2 * self.radio, 2 * self.radio)
 
     def esPateada(self,angulo_radianes):

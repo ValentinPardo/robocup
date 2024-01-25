@@ -7,11 +7,13 @@ class Contenedor:
         if self.jugador == None:
             self.jugador = jugador
             jugador.obtenerPelota()
+            self.pelota.tiempoUltimoRobo = 50
         else:
             self.jugador.perderPelota()
             self.desasociar()
             self.jugador = jugador
             jugador.obtenerPelota()
+            self.pelota.tiempoUltimoRobo = 50
 
     def desasociar(self):
         if self.jugador is not None:
