@@ -98,10 +98,10 @@ class Juego:
 
         for jugador in jugadores:
             if jugador.obtenerHitbox().colliderect(pelota.obtenerHitbox()):
-                    if pelota.tiempoUltimoRobo == 0:
-                        contenedor.asociar(jugador) 
-                    else:
-                        pelota.tiempoUltimoRobo -= 1
+                if pelota.tiempoUltimoRobo < 0 and jugador.tienePelota == False:
+                    contenedor.asociar(jugador) 
+                else:
+                    pelota.tiempoUltimoRobo -= 1
 
 jugar = Juego()
 jugar.Jugar()

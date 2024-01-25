@@ -178,7 +178,7 @@ class Arquero(Jugador):
                 if self.coordenadas[1] == 320:
                     direccion = self.invertirDireccion(direccion)
             elif self.tienePelota:
-                self.pelota.esPateada(math.radians(0))
+                self.pasar()
             try:
                 self.notificar()
             except:
