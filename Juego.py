@@ -27,7 +27,7 @@ class Juego:
         self.equipo2 = Equipo('4-3-3', 'estrategia')
         jugadorViews = []
         #EQUIPO LOCAL
-        for i in range(2):
+        for i in range(5):
             if i == 0:
                 jugador = Arquero(coordenadas[i], pelota, 'local', self.equipo1)
             elif i == 1 or i == 2:
@@ -36,6 +36,8 @@ class Juego:
                 jugador = Mediocampista(coordenadas[i], pelota, 'local', self.equipo1)
             elif i == 4:
                 jugador = Delantero(coordenadas[i], pelota, 'local', self.equipo1)
+            else:
+                jugador = Jugador(coordenadas[i], pelota, 'local', self.equipo1)
             jugadorView = JugadorView('local', i + 1)
             jugador.suscribir(jugadorView)
             self.equipo1.agregarJugador(jugador)
@@ -43,7 +45,7 @@ class Juego:
             thread = threading.Thread(target=jugador.comportamiento, args=())
             thread.start()
         #EQUIPO VISITANTE
-        for i in range(2):
+        for i in range(5):
             if i == 0:
                 jugador = Arquero(coordenadas[i], pelota, 'visitante', self.equipo2)
             elif i == 1 or i == 2:
@@ -52,6 +54,8 @@ class Juego:
                 jugador = Mediocampista(coordenadas[i], pelota, 'visitante', self.equipo2)
             elif i == 4:
                 jugador = Delantero(coordenadas[i], pelota, 'visitante', self.equipo2)
+            else:
+                jugador = Jugador(coordenadas[i], pelota, 'visitante', self.equipo2)
             jugadorView = JugadorView('visitante',i + 1)
             jugador.suscribir(jugadorView)
             self.equipo2.agregarJugador(jugador)

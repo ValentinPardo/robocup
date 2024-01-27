@@ -215,9 +215,30 @@ class Defensor(Jugador):
         else:
             self.coordenadas = [1150, coordenadas]
 
-    #def comportamiento(self):
-    #    # Implementación específica del comportamiento para Defensor
-    #    pass
+    def comportamiento(self):
+        global equipoConPelota
+        # Logica de lo que hace el jugador en cada situacion
+        while self.juegoActivo:
+            # Si no tiene la pelota
+            if self.rangoMovimiento() and not self.tienePelota and equipoConPelota != self.bando:
+                self.sinPelota()
+            # Si su equipo tiene la pelota
+            elif self.rangoMovimiento() and not self.tienePelota and equipoConPelota == self.bando:
+                self.equipoConPosesion()
+            # Si tiene la pelota
+            elif self.tienePelota:
+                self.conPelota()
+
+            try:
+                self.notificar()
+            except:
+                pass
+
+    def rangoMovimiento(self):
+        if self.bando == 'local':
+            return self.pelota.coordenadas[0] > 150 and self.pelota.coordenadas[0] < 400
+        else:
+            return self.pelota.coordenadas[0] > 1050 and self.pelota.coordenadas[0] < 1300
 
     def defender(self):
         # Implementación específica del método defender para Defensor
@@ -230,9 +251,27 @@ class Mediocampista(Jugador):
         else:
             self.coordenadas = [930, coordenadas]
 
-    #def comportamiento(self):
-    #    # Implementación específica del comportamiento para Mediocampista
-    #    pass
+    def comportamiento(self):
+        global equipoConPelota
+        # Logica de lo que hace el jugador en cada situacion
+        while self.juegoActivo:
+            # Si no tiene la pelota
+            if self.rangoMovimiento() and not self.tienePelota and equipoConPelota != self.bando:
+                self.sinPelota()
+            # Si su equipo tiene la pelota
+            elif self.rangoMovimiento() and not self.tienePelota and equipoConPelota == self.bando:
+                self.equipoConPosesion()
+            # Si tiene la pelota
+            elif self.tienePelota:
+                self.conPelota()
+
+            try:
+                self.notificar()
+            except:
+                pass
+    
+    def rangoMovimiento(self):
+        return self.pelota.coordenadas[0] > 400 and self.pelota.coordenadas[0] < 1000
 
     def distribuirBalon(self):
         # Implementación específica del método distribuirBalon para Mediocampista
@@ -245,9 +284,41 @@ class Delantero(Jugador):
         else:
             self.coordenadas = [797, coordenadas]
 
-    #def comportamiento(self):
-    #    # Implementación específica del comportamiento para Delantero
-    #    pass
+    def comportamiento(self):
+        global equipoConPelota
+        # Logica de lo que hace el jugador en cada situacion
+        while self.juegoActivo:
+            # Si no tiene la pelota y la puede robar
+            if self.rangoMovimiento() and not self.tienePelota and equipoConPelota != self.bando:
+                self.sinPelota()
+            # Si no tiene la pelota y no esta en posicion
+            elif not self.rangoMovimiento() and not self.tienePelota:
+                self.ponerseEnPosicion()
+            # Si tiene la pelota
+            elif self.tienePelota:
+                self.conPelota()
+
+            try:
+                self.notificar()
+            except:
+                pass
+    
+    def ponerseEnPosicion(self):
+        if self.bando == 'local':
+            area = (1150, 460)
+        else:
+            area = (300,460)
+        
+        distancia_x = area[0] - self.coordenadas[0]
+        distancia_y = area[1] - self.coordenadas[1]
+        angulo_radianes = math.atan2(distancia_y, distancia_x)
+        self.correr(angulo_radianes)
+
+    def rangoMovimiento(self):
+        if self.bando == 'local':
+            return self.pelota.coordenadas[0] > 1000 and self.pelota.coordenadas[0] < 1300
+        else:
+            return self.pelota.coordenadas[0] > 150 and self.pelota.coordenadas[0] < 400
 
     def marcarGol(self):
         # Implementación específica del método marcarGol para Delantero
