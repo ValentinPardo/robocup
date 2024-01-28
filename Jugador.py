@@ -72,11 +72,11 @@ class Jugador:
             if self.bando == 'local':
                 if jugadorDestino.coordenadas[0] > self.coordenadas[0]:
                     self.perderPelota()
-                    jugadorDestino.obtenerPelota()
+                    jugadorDestino.contenedor.asociar()
             elif self.bando == 'visitante':
                 if jugadorDestino.coordenadas[0] < self.coordenadas[0]:
                     self.perderPelota()
-                    jugadorDestino.obtenerPelota()
+                    jugadorDestino.contenedor.asociar()
 
     def rotar(self):
         # Implementación del método rotar
@@ -86,7 +86,6 @@ class Jugador:
     
     def obtenerPelota(self):
         self.tienePelota = True
-        self.contenedor.asociar(self)
         global equipoConPelota
         equipoConPelota = self.bando
 
