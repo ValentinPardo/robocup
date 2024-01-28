@@ -22,12 +22,12 @@ class Juego:
         contenedor = Contenedor(pelota)
         pelotaView = PelotaView()
         pelota.suscribir(pelotaView)
-        coordenadas = [210, 310, 410, 510, 610]
+        coordenadas = [210, 310, 480, 510, 610]
         self.equipo1 = Equipo('4-3-3', 'estrategia')
         self.equipo2 = Equipo('4-3-3', 'estrategia')
         jugadorViews = []
         #EQUIPO LOCAL
-        for i in range(1):
+        for i in range(4):
             if i == 0:
                 jugador = Arquero(coordenadas[i], pelota, 'local', self.equipo1, contenedor)
             elif i == 1 or i == 2:
@@ -82,16 +82,18 @@ class Juego:
 
     def reiniciar_posiciones(self, pelota, coordenadas, contenedor):
         # Lógica para reiniciar las posiciones de la pelota y los jugadores
-        i = 0
-        for jugador in self.equipo1.jugadores + self.equipo2.jugadores:
+        for i, jugador in enumerate(self.equipo1.jugadores + self.equipo2.jugadores):
             jugador.primeraPosicion(coordenadas[i % 5])
             jugador.notificar()
-            contenedor.desasociar()
-            i += 1
+            jugador.perderPelota()
+            jugador.hitbox = pygame.Rect(jugador.coordenadas[0] - 10, jugador.coordenadas[1] - 10, 20, 20)
+        
+        contenedor.desasociar()
 
         # Reiniciar posición de la pelota
-        pelota.velocidad = 0
-        pelota.setPos([715, 400], 0)
+        pelota.inicializar()
+        pelota.notificar()
+
 
 
     #este chequeo se va a tener q hacer en views ya que se necesita de un bucle que chequee constantemente
