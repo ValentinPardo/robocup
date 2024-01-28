@@ -27,17 +27,17 @@ class Juego:
         self.equipo2 = Equipo('4-3-3', 'estrategia')
         jugadorViews = []
         #EQUIPO LOCAL
-        for i in range(5):
+        for i in range(1):
             if i == 0:
-                jugador = Arquero(coordenadas[i], pelota, 'local', self.equipo1)
+                jugador = Arquero(coordenadas[i], pelota, 'local', self.equipo1, contenedor)
             elif i == 1 or i == 2:
-                jugador = Defensor(coordenadas[i], pelota, 'local', self.equipo1)
+                jugador = Defensor(coordenadas[i], pelota, 'local', self.equipo1, contenedor)
             elif i == 3:
-                jugador = Mediocampista(coordenadas[i], pelota, 'local', self.equipo1)
+                jugador = Mediocampista(coordenadas[i], pelota, 'local', self.equipo1, contenedor)
             elif i == 4:
-                jugador = Delantero(coordenadas[i], pelota, 'local', self.equipo1)
+                jugador = Delantero(coordenadas[i], pelota, 'local', self.equipo1, contenedor)
             else:
-                jugador = Jugador(coordenadas[i], pelota, 'local', self.equipo1)
+                jugador = Jugador(coordenadas[i], pelota, 'local', self.equipo1, contenedor)
             jugadorView = JugadorView('local', i + 1)
             jugador.suscribir(jugadorView)
             self.equipo1.agregarJugador(jugador)
@@ -45,17 +45,17 @@ class Juego:
             thread = threading.Thread(target=jugador.comportamiento, args=())
             thread.start()
         #EQUIPO VISITANTE
-        for i in range(5):
+        for i in range(4):
             if i == 0:
-                jugador = Arquero(coordenadas[i], pelota, 'visitante', self.equipo2)
+                jugador = Arquero(coordenadas[i], pelota, 'visitante', self.equipo2, contenedor)
             elif i == 1 or i == 2:
-                jugador = Defensor(coordenadas[i], pelota, 'visitante', self.equipo2)
+                jugador = Defensor(coordenadas[i], pelota, 'visitante', self.equipo2, contenedor)
             elif i == 3:
-                jugador = Mediocampista(coordenadas[i], pelota, 'visitante', self.equipo2)
+                jugador = Mediocampista(coordenadas[i], pelota, 'visitante', self.equipo2, contenedor)
             elif i == 4:
-                jugador = Delantero(coordenadas[i], pelota, 'visitante', self.equipo2)
+                jugador = Delantero(coordenadas[i], pelota, 'visitante', self.equipo2, contenedor)
             else:
-                jugador = Jugador(coordenadas[i], pelota, 'visitante', self.equipo2)
+                jugador = Jugador(coordenadas[i], pelota, 'visitante', self.equipo2, contenedor)
             jugadorView = JugadorView('visitante',i + 1)
             jugador.suscribir(jugadorView)
             self.equipo2.agregarJugador(jugador)
@@ -64,11 +64,11 @@ class Juego:
             thread.start()
         while running[0]:
             campo.actualizar(jugadorViews, pelotaView, running, marcador)
-            self.chequear_colisiones(pelota,contenedor, coordenadas)
+            self.chequear_colisiones(pelota, contenedor, coordenadas)
             if limites.verificar_gol(pelota.coordenadas, marcador):
                 #Reiniciar jugadores y pelota (incompleto)
                 contenedor.desasociar()
-                self.reiniciar_posiciones(pelota, coordenadas)
+                self.reiniciar_posiciones(pelota, coordenadas, contenedor)
             #print(int(pygame.time.get_ticks()/1000)) Metodo para obtener tiempo desde inicio
 
         campo.quit() #terminar visualizacion
@@ -80,13 +80,13 @@ class Juego:
         for i in self.equipo2.jugadores:
             i.quit()
 
-    def reiniciar_posiciones(self, pelota, coordenadas):
+    def reiniciar_posiciones(self, pelota, coordenadas, contenedor):
         # Lógica para reiniciar las posiciones de la pelota y los jugadores
         i = 0
         for jugador in self.equipo1.jugadores + self.equipo2.jugadores:
             jugador.primeraPosicion(coordenadas[i % 5])
             jugador.notificar()
-            jugador.perderPelota()
+            contenedor.desasociar()
             i += 1
 
         # Reiniciar posición de la pelota

@@ -5,13 +5,14 @@ import random
 equipoConPelota = ''
 
 class Jugador:
-    def __init__(self, coordenadas, pelota, bando, equipo):
+    def __init__(self, coordenadas, pelota, bando, equipo, contenedor):
         self.velocidad = 0.001
         self.velocidadRotacion = 0
         self.tienePelota = False
         self.pelota = pelota
         self.bando = bando
         self.equipo = equipo
+        self.contenedor = contenedor
         self.primeraPosicion(coordenadas)
         self.jugador_view = None
         self.juegoActivo = True
@@ -73,7 +74,7 @@ class Jugador:
                     self.perderPelota()
                     jugadorDestino.obtenerPelota()
             elif self.bando == 'visitante':
-                if jugadorDestino.coordenadas[0] > self.coordenadas[0]:
+                if jugadorDestino.coordenadas[0] < self.coordenadas[0]:
                     self.perderPelota()
                     jugadorDestino.obtenerPelota()
 
@@ -85,6 +86,7 @@ class Jugador:
     
     def obtenerPelota(self):
         self.tienePelota = True
+        self.contenedor.asociar(self)
         global equipoConPelota
         equipoConPelota = self.bando
 
@@ -121,7 +123,7 @@ class Jugador:
         else: 
             self.pelota.setPos(self.coordenadas,angulo_radianes)
             self.correr(angulo_radianes)
-            self.pasar()
+            #self.pasar()
 
     def equipoConPosesion(self):
         # Implementación del método equipoConPosesion
