@@ -29,8 +29,8 @@ class Pelota:
 
         self.coordenadas[0] += math.cos(angulo_radianes ) * self.velocidad
         self.coordenadas[1] += math.sin(angulo_radianes ) * self.velocidad
-        self.hitbox = pygame.Rect(self.coordenadas[0] - 10, self.coordenadas[1] - 10, 20, 20)
-        
+        self.hitbox = pygame.Rect(self.coordenadas[0] - self.radio, self.coordenadas[1] - self.radio, 2 * self.radio, 2 * self.radio)
+        self.notificar()
 
     def getPos(self):
         # Implementación del método getPos

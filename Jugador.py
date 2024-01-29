@@ -64,7 +64,7 @@ class Jugador:
             if pelota.coordenadas[0] < 132:
                 equipoConPelota = 'visitante'
             
-    def pasar(self):
+    def pasar2(self):
         i = random.randint(0,100000)
         if i == 978: #probabilidad de pasar la pelota
             size = self.equipo.cantidadJugadores()-1
@@ -77,6 +77,27 @@ class Jugador:
                 if jugadorDestino.coordenadas[0] < self.coordenadas[0]:
                     self.perderPelota()
                     jugadorDestino.contenedor.asociar()
+
+    def pasar(self):
+        # Implementación del método pasar
+        global equipoConPelota
+        pelota = self.pelota
+        self.perderPelota()
+        angulo_radianes = self.obtenerAnguloCompanero(random.randint(0,4))
+        while equipoConPelota == '':
+            pelota.esPateada(angulo_radianes)
+            if pelota.coordenadas[0] > 1305: #si la pelota sale de la cancha se asigna a un equipo para terminar el while
+                equipoConPelota = 'local'
+            if pelota.coordenadas[0] < 132:
+                equipoConPelota = 'visitante'
+    
+    def obtenerAnguloCompanero(self, indice):
+                    jugadorCompanero = self.equipo.jugadores[indice]
+                    distancia_x = jugadorCompanero.coordenadas[0] - self.coordenadas[0]
+                    distancia_y = jugadorCompanero.coordenadas[1] - self.coordenadas[1]
+                    angulo_radianes = math.atan2(distancia_y, distancia_x)
+                    return angulo_radianes
+        
 
     def rotar(self):
         # Implementación del método rotar
@@ -122,7 +143,7 @@ class Jugador:
         else: 
             self.pelota.setPos(self.coordenadas,angulo_radianes)
             self.correr(angulo_radianes)
-            #self.pasar()
+            self.pasar()
 
     def equipoConPosesion(self):
         # Implementación del método equipoConPosesion

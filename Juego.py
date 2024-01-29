@@ -22,12 +22,12 @@ class Juego:
         contenedor = Contenedor(pelota)
         pelotaView = PelotaView()
         pelota.suscribir(pelotaView)
-        coordenadas = [210, 310, 480, 510, 610]
+        coordenadas = [210, 310, 480, 310, 610]
         self.equipo1 = Equipo('4-3-3', 'estrategia')
         self.equipo2 = Equipo('4-3-3', 'estrategia')
         jugadorViews = []
         #EQUIPO LOCAL
-        for i in range(4):
+        for i in range(1):
             if i == 0:
                 jugador = Arquero(coordenadas[i], pelota, 'local', self.equipo1, contenedor)
             elif i == 1 or i == 2:
@@ -45,7 +45,7 @@ class Juego:
             thread = threading.Thread(target=jugador.comportamiento, args=())
             thread.start()
         #EQUIPO VISITANTE
-        for i in range(4):
+        for i in range(5):
             if i == 0:
                 jugador = Arquero(coordenadas[i], pelota, 'visitante', self.equipo2, contenedor)
             elif i == 1 or i == 2:
@@ -84,9 +84,9 @@ class Juego:
         # Lógica para reiniciar las posiciones de la pelota y los jugadores
         for i, jugador in enumerate(self.equipo1.jugadores + self.equipo2.jugadores):
             jugador.primeraPosicion(coordenadas[i % 5])
-            jugador.notificar()
             jugador.perderPelota()
             jugador.hitbox = pygame.Rect(jugador.coordenadas[0] - 10, jugador.coordenadas[1] - 10, 20, 20)
+            jugador.notificar()
         
         contenedor.desasociar()
 
