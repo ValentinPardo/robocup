@@ -63,33 +63,39 @@ class Jugador:
                 equipoConPelota = 'local'
             if pelota.coordenadas[0] < 132:
                 equipoConPelota = 'visitante'
-            
-    def pasar2(self):
-        i = random.randint(0,100000)
-        if i == 978: #probabilidad de pasar la pelota
-            size = self.equipo.cantidadJugadores()-1
-            jugadorDestino = self.equipo.jugadores[random.randint(0,size)]
-            if self.bando == 'local':
-                if jugadorDestino.coordenadas[0] > self.coordenadas[0]:
-                    self.perderPelota()
-                    jugadorDestino.contenedor.asociar()
-            elif self.bando == 'visitante':
-                if jugadorDestino.coordenadas[0] < self.coordenadas[0]:
-                    self.perderPelota()
-                    jugadorDestino.contenedor.asociar()
 
     def pasar(self):
         # Implementación del método pasar
-        global equipoConPelota
-        pelota = self.pelota
-        self.perderPelota()
-        angulo_radianes = self.obtenerAnguloCompanero(random.randint(0,4))
-        while equipoConPelota == '':
-            pelota.esPateada(angulo_radianes)
-            if pelota.coordenadas[0] > 1305: #si la pelota sale de la cancha se asigna a un equipo para terminar el while
-                equipoConPelota = 'local'
-            if pelota.coordenadas[0] < 132:
-                equipoConPelota = 'visitante'
+        jugadorObjetivo = random.randint(0,4)
+        distancia_jugador_x = self.coordenadas[0] - self.equipo.jugadores[jugadorObjetivo].coordenadas[0]
+        distancia_jugador_y = self.coordenadas[1] - self.equipo.jugadores[jugadorObjetivo].coordenadas[1]
+        distancia = math.sqrt(distancia_jugador_x**2 + distancia_jugador_y**2)
+        distancia_max = 300
+        if distancia < distancia_max:
+            if ((self.bando == 'local' and
+            not self.equipo.jugadores[jugadorObjetivo].tienePelota and
+            self.equipo.jugadores[jugadorObjetivo].coordenadas[0] > self.coordenadas[0]) or
+            (self.bando == 'visitante' and
+            not self.equipo.jugadores[jugadorObjetivo].tienePelota and
+            self.equipo.jugadores[jugadorObjetivo].coordenadas[0] < self.coordenadas[0])):
+                global equipoConPelota
+                pelota = self.pelota
+                self.perderPelota()
+                angulo_radianes = self.obtenerAnguloCompanero(jugadorObjetivo)
+                while equipoConPelota == '':
+                    pelota.esPateada(angulo_radianes)
+                    
+                    distancia_x = self.coordenadas[0] - pelota.coordenadas[0]
+                    distancia_y = self.coordenadas[1] - pelota.coordenadas[1]
+                    distancia = math.sqrt(distancia_x**2 + distancia_y**2)
+                    
+                    # Detiene la pelota si está lo suficientemente cerca del jugador destinatario
+                    if distancia > distancia_max:
+                        if self.bando == 'local':
+                            equipoConPelota = 'visitante'
+                        else:
+                            equipoConPelota = 'local'
+
     
     def obtenerAnguloCompanero(self, indice):
                     jugadorCompanero = self.equipo.jugadores[indice]

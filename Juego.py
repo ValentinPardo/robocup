@@ -69,7 +69,6 @@ class Juego:
                 #Reiniciar jugadores y pelota (incompleto)
                 contenedor.desasociar()
                 self.reiniciar_posiciones(pelota, coordenadas, contenedor)
-            #print(int(pygame.time.get_ticks()/1000)) Metodo para obtener tiempo desde inicio
 
         campo.quit() #terminar visualizacion
         self.quit() #terminar modelo
