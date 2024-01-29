@@ -63,6 +63,10 @@ class Jugador:
                 equipoConPelota = 'local'
             if pelota.coordenadas[0] < 132:
                 equipoConPelota = 'visitante'
+            if pelota.coordenadas[0] == 725:
+                equipoConPelota = 'local'
+        equipoConPelota = ''
+        pelota.notificar()
 
     def pasar(self):
         # Implementación del método pasar
@@ -82,7 +86,7 @@ class Jugador:
                 pelota = self.pelota
                 self.perderPelota()
                 angulo_radianes = self.obtenerAnguloCompanero(jugadorObjetivo)
-                while equipoConPelota == '':
+                while equipoConPelota == '': #Consultar con valentin. El error es que como se le debe asignar la pelota a un bando, no la pueden robar los jugadores
                     pelota.esPateada(angulo_radianes)
                     
                     distancia_x = self.coordenadas[0] - pelota.coordenadas[0]
@@ -92,9 +96,9 @@ class Jugador:
                     # Detiene la pelota si está lo suficientemente cerca del jugador destinatario
                     if distancia > distancia_max:
                         if self.bando == 'local':
-                            equipoConPelota = 'visitante'
-                        else:
                             equipoConPelota = 'local'
+                        else:
+                            equipoConPelota = 'vistante'
 
     
     def obtenerAnguloCompanero(self, indice):
@@ -149,7 +153,7 @@ class Jugador:
         else: 
             self.pelota.setPos(self.coordenadas,angulo_radianes)
             self.correr(angulo_radianes)
-            self.pasar()
+            #self.pasar()
 
     def equipoConPosesion(self):
         # Implementación del método equipoConPosesion

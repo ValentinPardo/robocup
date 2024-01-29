@@ -45,7 +45,7 @@ class Juego:
             thread = threading.Thread(target=jugador.comportamiento, args=())
             thread.start()
         #EQUIPO VISITANTE
-        for i in range(5):
+        for i in range(4):
             if i == 0:
                 jugador = Arquero(coordenadas[i], pelota, 'visitante', self.equipo2, contenedor)
             elif i == 1 or i == 2:
@@ -69,6 +69,7 @@ class Juego:
                 #Reiniciar jugadores y pelota (incompleto)
                 contenedor.desasociar()
                 self.reiniciar_posiciones(pelota, coordenadas, contenedor)
+                pelota.notificar()
 
         campo.quit() #terminar visualizacion
         self.quit() #terminar modelo
@@ -91,7 +92,6 @@ class Juego:
 
         # Reiniciar posición de la pelota
         pelota.inicializar()
-        pelota.notificar()
 
 
 
