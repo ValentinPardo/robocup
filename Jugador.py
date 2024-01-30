@@ -63,7 +63,7 @@ class Jugador:
                 equipoConPelota = 'local'
             if pelota.coordenadas[0] < 132:
                 equipoConPelota = 'visitante'
-            if pelota.coordenadas[0] == 725:
+            if pelota.coordenadas[0] > 650 and pelota.coordenadas[0] < 800:
                 equipoConPelota = 'local'
         equipoConPelota = ''
         pelota.notificar()
@@ -98,7 +98,7 @@ class Jugador:
                         if self.bando == 'local':
                             equipoConPelota = 'local'
                         else:
-                            equipoConPelota = 'vistante'
+                            equipoConPelota = 'visitante'
 
     
     def obtenerAnguloCompanero(self, indice):
@@ -196,9 +196,9 @@ class Jugador:
 class Arquero(Jugador):
     def primeraPosicion(self, coordenadas):
         if self.bando == 'local':
-            self.coordenadas = [150, 390]
+            self.coordenadas = [152, 390]
         else:
-            self.coordenadas = [1297, 390]
+            self.coordenadas = [1295, 390]
 
     def comportamiento(self):
         direccion = 'DOWN'
