@@ -45,7 +45,7 @@ class Juego:
             thread = threading.Thread(target=jugador.comportamiento, args=())
             thread.start()
         #EQUIPO VISITANTE
-        for i in range(4):
+        for i in range(5):
             if i == 0:
                 jugador = Arquero(coordenadas[i], pelota, 'visitante', self.equipo2, contenedor)
             elif i == 1 or i == 2:
@@ -93,8 +93,6 @@ class Juego:
         # Reiniciar posición de la pelota
         pelota.inicializar()
 
-
-
     #este chequeo se va a tener q hacer en views ya que se necesita de un bucle que chequee constantemente
     def chequear_colisiones(self, pelota, contenedor, coordenadas):
         # Check for collisions between the ball and the players
@@ -103,7 +101,7 @@ class Juego:
 
         for jugador in jugadores:
             if jugador.obtenerHitbox().colliderect(pelota.obtenerHitbox()):
-                if pelota.tiempoUltimoRobo < 0 and jugador.tienePelota == False:
+                if pelota.tiempoUltimoRobo <= 0 and jugador.tienePelota == False:
                     contenedor.asociar(jugador) 
                 else:
                     pelota.tiempoUltimoRobo -= 1

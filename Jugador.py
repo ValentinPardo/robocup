@@ -55,6 +55,7 @@ class Jugador:
         global equipoConPelota
         pelota = self.pelota
         self.perderPelota()
+        self.pelota.tiempoUltimoRobo = -1
         variacion_radianes = random.uniform(math.radians(-30),math.radians(30))
         anguloNuevo = angulo_radianes + variacion_radianes
         while equipoConPelota == '':
@@ -70,7 +71,8 @@ class Jugador:
 
     def pasar(self):
         # Implementación del método pasar
-        jugadorObjetivo = random.randint(0,4)
+        tamañoEquipo = self.equipo.cantidadJugadores()
+        jugadorObjetivo = random.randint(0, tamañoEquipo - 1)
         distancia_jugador_x = self.coordenadas[0] - self.equipo.jugadores[jugadorObjetivo].coordenadas[0]
         distancia_jugador_y = self.coordenadas[1] - self.equipo.jugadores[jugadorObjetivo].coordenadas[1]
         distancia = math.sqrt(distancia_jugador_x**2 + distancia_jugador_y**2)
@@ -153,7 +155,7 @@ class Jugador:
         else: 
             self.pelota.setPos(self.coordenadas,angulo_radianes)
             self.correr(angulo_radianes)
-            #self.pasar()
+            self.pasar()
 
     def equipoConPosesion(self):
         # Implementación del método equipoConPosesion
@@ -196,9 +198,9 @@ class Jugador:
 class Arquero(Jugador):
     def primeraPosicion(self, coordenadas):
         if self.bando == 'local':
-            self.coordenadas = [152, 390]
+            self.coordenadas = [157, 393]
         else:
-            self.coordenadas = [1295, 390]
+            self.coordenadas = [1288, 390]
 
     def comportamiento(self):
         direccion = 'DOWN'
