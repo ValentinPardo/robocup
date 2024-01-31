@@ -101,6 +101,9 @@ class Jugador:
                             equipoConPelota = 'local'
                         else:
                             equipoConPelota = 'visitante'
+                
+                equipoConPelota = ''
+                pelota.tiempoUltimoRobo = -1
 
     
     def obtenerAnguloCompanero(self, indice):
@@ -119,12 +122,14 @@ class Jugador:
     
     def obtenerPelota(self):
         self.tienePelota = True
+        self.velocidad = 0.005
         global equipoConPelota
         equipoConPelota = self.bando
 
     def perderPelota(self):
         # Implementación del método perderPelota
         self.tienePelota = False
+        self.velocidad = 0.001
         global equipoConPelota
         equipoConPelota = ''
 
@@ -281,9 +286,9 @@ class Defensor(Jugador):
 class Mediocampista(Jugador):
     def primeraPosicion(self, coordenadas):
         if self.bando == 'local':
-            self.coordenadas = [500, coordenadas]
+            self.coordenadas = [725, coordenadas]
         else:
-            self.coordenadas = [930, coordenadas]
+            self.coordenadas = [800, coordenadas]
 
     def comportamiento(self):
         global equipoConPelota
@@ -314,9 +319,9 @@ class Mediocampista(Jugador):
 class Delantero(Jugador):
     def primeraPosicion(self, coordenadas):
         if self.bando == 'local':
-            self.coordenadas = [651, coordenadas]
+            self.coordenadas = [725, 123]
         else:
-            self.coordenadas = [797, coordenadas]
+            self.coordenadas = [725, 678]
 
     def comportamiento(self):
         global equipoConPelota
@@ -326,8 +331,11 @@ class Delantero(Jugador):
             if self.rangoMovimiento() and not self.tienePelota and equipoConPelota != self.bando:
                 self.sinPelota()
             # Si no tiene la pelota y no esta en posicion
-            elif not self.rangoMovimiento() and not self.tienePelota:
+            elif not self.rangoMovimiento() and not self.tienePelota and equipoConPelota == self.bando:
                 self.ponerseEnPosicion()
+            # Si su equipo tiene la pelota
+            elif not self.rangoMovimiento() and not self.tienePelota and equipoConPelota == '':
+                self.sinPelota()
             # Si tiene la pelota
             elif self.tienePelota:
                 self.conPelota()

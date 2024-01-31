@@ -27,7 +27,7 @@ class Juego:
         self.equipo2 = Equipo('4-3-3', 'estrategia')
         jugadorViews = []
         #EQUIPO LOCAL
-        for i in range(1):
+        for i in range(5):
             if i == 0:
                 jugador = Arquero(coordenadas[i], pelota, 'local', self.equipo1, contenedor)
             elif i == 1 or i == 2:
