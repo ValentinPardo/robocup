@@ -76,7 +76,7 @@ class Jugador:
         distancia_jugador_x = self.coordenadas[0] - self.equipo.jugadores[jugadorObjetivo].coordenadas[0]
         distancia_jugador_y = self.coordenadas[1] - self.equipo.jugadores[jugadorObjetivo].coordenadas[1]
         distancia = math.sqrt(distancia_jugador_x**2 + distancia_jugador_y**2)
-        distancia_max = 300
+        distancia_max = 150
         if distancia < distancia_max:
             if ((self.bando == 'local' and
             not self.equipo.jugadores[jugadorObjetivo].tienePelota and
@@ -101,6 +101,8 @@ class Jugador:
                             equipoConPelota = 'local'
                         else:
                             equipoConPelota = 'visitante'
+                    if pelota.coordenadas[0] > 650 and pelota.coordenadas[0] < 800:
+                        equipoConPelota = 'local'
                 
                 equipoConPelota = ''
                 pelota.tiempoUltimoRobo = -1
@@ -300,6 +302,8 @@ class Mediocampista(Jugador):
             # Si su equipo tiene la pelota
             elif self.rangoMovimiento() and not self.tienePelota and equipoConPelota == self.bando:
                 self.equipoConPosesion()
+            elif not self.rangoMovimiento() and not self.tienePelota and equipoConPelota != self.bando:
+                self.sinPelota()
             # Si tiene la pelota
             elif self.tienePelota:
                 self.conPelota()
