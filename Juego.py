@@ -3,7 +3,7 @@ from Limites import Limites
 import threading
 from Pelota import Pelota
 from Jugador import *
-from Equipo import Equipo
+from Equipo import *
 from ContenedorPelota import Contenedor
 import random
 
@@ -23,21 +23,12 @@ class Juego:
         pelotaView = PelotaView()
         pelota.suscribir(pelotaView)
         coordenadas = [210, 310, 480, 310, 610]
-        self.equipo1 = Equipo('4-3-3', 'estrategia')
-        self.equipo2 = Equipo('4-3-3', 'estrategia')
+        self.equipo1 = Equipo(StrategyDefensiva() ,'local')
+        self.equipo2 = Equipo(StrategyDefensiva(),'visitante')
         jugadorViews = []
         #EQUIPO LOCAL
         for i in range(5):
-            if i == 0:
-                jugador = Arquero(coordenadas[i], pelota, 'local', self.equipo1, contenedor)
-            elif i == 1 or i == 2:
-                jugador = Defensor(coordenadas[i], pelota, 'local', self.equipo1, contenedor)
-            elif i == 3:
-                jugador = Mediocampista(coordenadas[i], pelota, 'local', self.equipo1, contenedor)
-            elif i == 4:
-                jugador = Delantero(coordenadas[i], pelota, 'local', self.equipo1, contenedor)
-            else:
-                jugador = Jugador(coordenadas[i], pelota, 'local', self.equipo1, contenedor)
+            jugador = self.equipo1.crearJugadores(coordenadas[i], pelota, contenedor, i)
             jugadorView = JugadorView('local', i + 1)
             jugador.suscribir(jugadorView)
             self.equipo1.agregarJugador(jugador)
@@ -46,16 +37,7 @@ class Juego:
             thread.start()
         #EQUIPO VISITANTE
         for i in range(5):
-            if i == 0:
-                jugador = Arquero(coordenadas[i], pelota, 'visitante', self.equipo2, contenedor)
-            elif i == 1 or i == 2:
-                jugador = Defensor(coordenadas[i], pelota, 'visitante', self.equipo2, contenedor)
-            elif i == 3:
-                jugador = Mediocampista(coordenadas[i], pelota, 'visitante', self.equipo2, contenedor)
-            elif i == 4:
-                jugador = Delantero(coordenadas[i], pelota, 'visitante', self.equipo2, contenedor)
-            else:
-                jugador = Jugador(coordenadas[i], pelota, 'visitante', self.equipo2, contenedor)
+            jugador = self.equipo2.crearJugadores(coordenadas[i], pelota, contenedor, i)
             jugadorView = JugadorView('visitante',i + 1)
             jugador.suscribir(jugadorView)
             self.equipo2.agregarJugador(jugador)
